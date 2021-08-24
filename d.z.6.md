@@ -118,17 +118,17 @@ Ritchie Blackmore 	Russia
 
 С помощью операций вставки (INSERT INTO orders (name, price) VALUES ('Шоколад', 10); и т.д.) заполнил обе таблицы  
 
-postgres=# SELECT COUNT(*) FROM orders;  
- count  
--------  
+    postgres=# SELECT COUNT(*) FROM orders;  
+    count  
+    -------  
      5  
-(1 row)  
+    (1 row)  
 
-postgres=# SELECT COUNT(*) FROM clients;  
- count  
--------  
+    postgres=# SELECT COUNT(*) FROM clients;  
+    count  
+    -------  
      5  
-(1 row)  
+    (1 row)  
 
 **********
 ***Задача 4  
@@ -148,13 +148,13 @@ create table table3 (fio varchar(50) not null, zakaz varchar(30) not null);
 UPDATE table3 SET fio = (SELECT name_2 FROM clients WHERE id = 1 AND id = 2 AND id = 3);  
 UPDATE table3 SET zakaz = (SELECT name FROM orders WHERE id = 3 AND id = 4 AND id = 5);  
 
-postgres=# SELECT fio FROM table3;  
+    postgres=# SELECT fio FROM table3;  
          fio          
-----------------------  
- Иванов Иван Иванович  
- Петров Петр Петрович  
- Иоганн Себастьян Бах  
-(3 rows)  
+    ----------------------  
+    Иванов Иван Иванович  
+    Петров Петр Петрович  
+    Иоганн Себастьян Бах  
+    (3 rows)  
 
 **********  
 ***Задача 5  
@@ -162,19 +162,19 @@ postgres=# SELECT fio FROM table3;
 Приведите получившийся результат и объясните что значат полученные значения.***  
 
 
-postgres=# EXPLAIN SELECT fio FROM table3;  
+    postgres=# EXPLAIN SELECT fio FROM table3;  
                         QUERY PLAN                         
------------------------------------------------------------  
- Seq Scan on table3  (cost=0.00..13.60 rows=360 width=118)  
-(1 row)  
+    -----------------------------------------------------------  
+    Seq Scan on table3  (cost=0.00..13.60 rows=360 width=118)  
+    (1 row)  
 
-postgres=# EXPLAIN ANALYZE SELECT fio FROM table3;  
+    postgres=# EXPLAIN ANALYZE SELECT fio FROM table3;  
                                              QUERY PLAN                                              
------------------------------------------------------------------------------------------------------  
- Seq Scan on table3  (cost=0.00..13.60 rows=360 width=118) (actual time=0.316..0.333 rows=3 loops=1)  
- Planning Time: 0.119 ms  
- Execution Time: 1.380 ms  
-(3 rows)  
+    -----------------------------------------------------------------------------------------------------  
+    Seq Scan on table3  (cost=0.00..13.60 rows=360 width=118) (actual time=0.316..0.333 rows=3 loops=1)  
+    Planning Time: 0.119 ms  
+    Execution Time: 1.380 ms  
+    (3 rows)  
 
 EXPLAIN выполняет заданный запрос и возвращает статистику - время выполнения, кол-во прочитанных строк и т.д.  
 COSTS выводит "стоимость" запроса - ожидаемую нагрузку на ресурсы.  
