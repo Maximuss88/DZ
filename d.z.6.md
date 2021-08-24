@@ -36,7 +36,6 @@ docker network connect postgres-connect postgres2
     SQL-запрос для выдачи списка пользователей с правами над таблицами test_db  
     список пользователей с правами над таблицами test_db  
 
-
 Список БД (\list или SELECT datname FROM pg_database)  
 postgres=# SELECT datname FROM pg_database;  
   datname  
@@ -116,7 +115,6 @@ Ritchie Blackmore 	Russia
     приведите в ответе:  
         запросы  
         результаты их выполнения.  
-
 
 С помощью операций вставки (INSERT INTO orders (name, price) VALUES ('Шоколад', 10); и т.д.) заполнил обе таблицы  
 
