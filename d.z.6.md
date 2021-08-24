@@ -1,6 +1,6 @@
-Задача 1  
-Используя docker поднимите инстанс PostgreSQL (версию 12) c 2 volume, в который будут складываться данные БД и бэкапы.  
-Приведите получившуюся команду или docker-compose манифест.  
+###Задача 1  
+**Используя docker поднимите инстанс PostgreSQL (версию 12) c 2 volume, в который будут складываться данные БД и бэкапы.**  
+**Приведите получившуюся команду или docker-compose манифест.**  
 
 
 Скачал образ PostgreSQL  
@@ -36,10 +36,10 @@ docker network connect postgres-connect postgres2
     SQL-запрос для выдачи списка пользователей с правами над таблицами test_db  
     список пользователей с правами над таблицами test_db  
 
-Список БД (\list или SELECT datname FROM pg_database)  
-postgres=# SELECT datname FROM pg_database;  
-  datname  
------------  
+    Список БД (\list или SELECT datname FROM pg_database)  
+    postgres=# SELECT datname FROM pg_database;  
+    datname  
+    -----------  
  postgres  
  test_db  
  template1  
