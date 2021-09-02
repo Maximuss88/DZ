@@ -12,18 +12,18 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-03-mysql
 
 Скачал нужную версию, запустил и подключился:  
 
-[max@max_centos docker]$ docker search mysql  
-NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED  
-mysql                             MySQL is a widely used, open-source relation…   11342     [OK]  
-.................  
+    [max@max_centos docker]$ docker search mysql  
+    NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED  
+    mysql                             MySQL is a widely used, open-source relation…   11342     [OK]  
+    .................  
 
 [max@max_centos docker]$ docker pull mysql  
 
-[max@max_centos docker]$ docker inspect mysql  
-..................  
-"MYSQL_MAJOR=8.0",  
+    [max@max_centos docker]$ docker inspect mysql  
+    ..................  
+    "MYSQL_MAJOR=8.0",  
                 "MYSQL_VERSION=8.0.26-1debian10"  
-...............  
+    ...............  
 
 [max@max_centos ~]$ docker run --name MySQL -e MYSQL_ROOT_PASSWORD=password123 -d mysql  
 ed75c33e2d60685c8677ded13d8557738824ade61c6a08567881cdbd59579723  
@@ -41,6 +41,7 @@ root@ed75c33e2d60:/# mysql -u root -p
 Enter password:  
 Welcome to the MySQL monitor.  Commands end with ; or \g.  
 ................  
+
     mysql> \s  
     --------------  
     mysql  Ver 8.0.26 for Linux on x86_64 (MySQL Community Server - GPL)  
@@ -73,30 +74,30 @@ Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A  
 Database changed  
 
-mysql> SHOW TABLES;  
-+---------------------+  
-| Tables_in_test_dump |  
-+---------------------+  
-| orders              |  
-+---------------------+  
-1 row in set (0.00 sec)  
+    mysql> SHOW TABLES;  
+    +---------------------+  
+    | Tables_in_test_dump |  
+    +---------------------+  
+    | orders              |  
+    +---------------------+  
+    1 row in set (0.00 sec)  
 
-mysql> SELECT * FROM orders WHERE price > 300;  
-+----+----------------+-------+  
-| id | title          | price |  
-+----+----------------+-------+  
-|  2 | My little pony |   500 |  
-+----+----------------+-------+  
-1 row in set (0.00 sec)  
+    mysql> SELECT * FROM orders WHERE price > 300;  
+    +----+----------------+-------+  
+    | id | title          | price |  
+    +----+----------------+-------+  
+    |  2 | My little pony |   500 |  
+    +----+----------------+-------+  
+    1 row in set (0.00 sec)  
 
-Или сразу так:  
-mysql> SELECT count(*) FROM orders WHERE price > 300;  
-+----------+  
-| count(*) |  
-+----------+  
-|        1 |  
-+----------+  
-1 row in set (0.00 sec)  
+    Или сразу так:  
+    mysql> SELECT count(*) FROM orders WHERE price > 300;  
+    +----------+  
+    | count(*) |  
+    +----------+  
+    |        1 |  
+    +----------+  
+    1 row in set (0.00 sec)  
 
 **********  
 ***Задача 2  
@@ -111,27 +112,27 @@ mysql> SELECT count(*) FROM orders WHERE price > 300;
 Предоставьте привелегии пользователю test на операции SELECT базы test_db.  
 Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю test и приведите в ответе к задаче.***  
 
-CREATE USER test;  
+    CREATE USER test;  
 
-ALTER USER 'test'  
-IDENTIFIED WITH mysql_native_password BY 'password123'  
-PASSWORD EXPIRE INTERVAL 180 DAY  
-FAILED_LOGIN_ATTEMPTS 3 PASSWORD_LOCK_TIME 1  
-WITH MAX_CONNECTIONS_PER_HOUR 100;  
+    ALTER USER 'test'  
+    IDENTIFIED WITH mysql_native_password BY 'password123'  
+    PASSWORD EXPIRE INTERVAL 180 DAY  
+    FAILED_LOGIN_ATTEMPTS 3 PASSWORD_LOCK_TIME 1  
+    WITH MAX_CONNECTIONS_PER_HOUR 100;  
 
-GRANT SELECT ON test_dump.* TO 'test';  
+    GRANT SELECT ON test_dump.* TO 'test';  
 
-mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';  
-+------+------+-----------+  
-| USER | HOST | ATTRIBUTE |  
-+------+------+-----------+  
-| test | %    | NULL      |  
-+------+------+-----------+  
-1 row in set (0.00 sec)  
+    mysql> SELECT * FROM INFORMATION_SCHEMA.USER_ATTRIBUTES WHERE USER='test';  
+    +------+------+-----------+  
+    | USER | HOST | ATTRIBUTE |  
+    +------+------+-----------+  
+    | test | %    | NULL      |  
+    +------+------+-----------+  
+    1 row in set (0.00 sec)  
 
-Не нашел других способов изменить атрибуты пользователя, кроме этого, однако недостаточно прав даже у root:  
-mysql> UPDATE INFORMATION_SCHEMA.USER_ATTRIBUTES SET ATTRIBUTE='James Pretty' WHERE USER='test';  
-ERROR 1044 (42000): Access denied for user 'root'@'localhost' to database 'information_schema'  
+    Не нашел других способов изменить атрибуты пользователя, кроме этого, однако недостаточно прав даже у root:  
+    mysql> UPDATE INFORMATION_SCHEMA.USER_ATTRIBUTES SET ATTRIBUTE='James Pretty' WHERE USER='test';  
+    ERROR 1044 (42000): Access denied for user 'root'@'localhost' to database 'information_schema'  
 
 **********  
 ***Задача 3  
