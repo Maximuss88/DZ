@@ -10,14 +10,14 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-03-mysql
 Приведите в ответе количество записей с price > 300.  
 В следующих заданиях мы будем продолжать работу с данным контейнером.***  
 
-Скачал нужную версию, запустил и подключился:  
+    Скачал нужную версию, запустил и подключился:  
 
     [max@max_centos docker]$ docker search mysql  
     NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED  
     mysql                             MySQL is a widely used, open-source relation…   11342     [OK]  
     .................  
 
-[max@max_centos docker]$ docker pull mysql  
+    [max@max_centos docker]$ docker pull mysql  
 
     [max@max_centos docker]$ docker inspect mysql  
     ..................  
@@ -25,22 +25,22 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-03-mysql
                 "MYSQL_VERSION=8.0.26-1debian10"  
     ...............  
 
-[max@max_centos ~]$ docker run --name MySQL -e MYSQL_ROOT_PASSWORD=password123 -d mysql  
-ed75c33e2d60685c8677ded13d8557738824ade61c6a08567881cdbd59579723  
+    [max@max_centos ~]$ docker run --name MySQL -e MYSQL_ROOT_PASSWORD=password123 -d mysql  
+    ed75c33e2d60685c8677ded13d8557738824ade61c6a08567881cdbd59579723  
 
-[max@max_centos ~]$ docker exec -it ed75c33e2d60 /bin/bash  
-root@ed75c33e2d60:/#  
+    [max@max_centos ~]$ docker exec -it ed75c33e2d60 /bin/bash  
+    root@ed75c33e2d60:/#  
 
-Затем скачал файл бэкапа, закинул в контейнер (docker cp /tmp/test_dump.sql ed75c33e2d60:/tmp/) и развернул:  
-mysql> CREATE DATABASE test_dump;  
-Query OK, 1 row affected (0.01 sec)  
-root@ed75c33e2d60:/# mysql -u root -p test_dump < /tmp/test_dump.sql  
+    Затем скачал файл бэкапа, закинул в контейнер (docker cp /tmp/test_dump.sql ed75c33e2d60:/tmp/) и развернул:  
+    mysql> CREATE DATABASE test_dump;  
+    Query OK, 1 row affected (0.01 sec)  
+    root@ed75c33e2d60:/# mysql -u root -p test_dump < /tmp/test_dump.sql  
 
-Команда для выдачи статуса БД:  
-root@ed75c33e2d60:/# mysql -u root -p  
-Enter password:  
-Welcome to the MySQL monitor.  Commands end with ; or \g.  
-................  
+    Команда для выдачи статуса БД:  
+    root@ed75c33e2d60:/# mysql -u root -p  
+    Enter password:  
+    Welcome to the MySQL monitor.  Commands end with ; or \g.  
+    ................  
 
     mysql> \s  
     --------------  
@@ -67,12 +67,12 @@ Welcome to the MySQL monitor.  Commands end with ; or \g.
     Threads: 2  Questions: 81  Slow queries: 0  Opens: 158  Flush tables: 3  Open tables: 75  Queries per second avg: 0.044  
     --------------  
 
-Затем подключился к БД и выполнил запросы:  
+    Затем подключился к БД и выполнил запросы:  
 
-mysql> USE test_dump;  
-Reading table information for completion of table and column names  
-You can turn off this feature to get a quicker startup with -A  
-Database changed  
+    mysql> USE test_dump;  
+    Reading table information for completion of table and column names  
+    You can turn off this feature to get a quicker startup with -A  
+    Database changed  
 
     mysql> SHOW TABLES;  
     +---------------------+  
@@ -142,9 +142,9 @@ Database changed
     на MyISAM  
     на InnoDB***  
 
-Устанавливаем профилирование и смотрим доступные движки:  
-mysql> SET profiling = 1;  
-Query OK, 0 rows affected, 1 warning (0.00 sec)  
+    Устанавливаем профилирование и смотрим доступные движки:  
+    mysql> SET profiling = 1;  
+    Query OK, 0 rows affected, 1 warning (0.00 sec)  
 
     mysql> show engines;  
     +--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
@@ -168,7 +168,7 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
     orders  InnoDB  ...  
     .....  
 
-mysql> SELECT * FROM orders;  
+    mysql> SELECT * FROM orders;  
 
     mysql> SHOW PROFILES;  
     +----------+------------+------------------------------------------------+  
@@ -204,17 +204,17 @@ mysql> SELECT * FROM orders;
     +--------------------------------+----------+  
     17 rows in set, 1 warning (0.00 sec)  
 
-Затем изменим его на MyISAM и проверим то же самое с ним:  
-mysql> ALTER TABLE orders ENGINE = MyISAM;  
-Query OK, 5 rows affected (0.12 sec)  
-Records: 5  Duplicates: 0  Warnings: 0  
+    Затем изменим его на MyISAM и проверим то же самое с ним:  
+    mysql> ALTER TABLE orders ENGINE = MyISAM;  
+    Query OK, 5 rows affected (0.12 sec)  
+    Records: 5  Duplicates: 0  Warnings: 0  
 
     mysql> SHOW TABLE STATUS FROM test_dump LIKE 'orders';  
     Name    Engine  ...  
     orders  MyISAM  ...  
     .....  
 
-mysql> SELECT * FROM orders;  
+    mysql> SELECT * FROM orders;  
 
     mysql> SHOW PROFILES;  
     +----------+------------+------------------------------------------------+  
@@ -252,7 +252,7 @@ mysql> SELECT * FROM orders;
     +--------------------------------+----------+  
     16 rows in set, 1 warning (0.00 sec)  
 
-Таким образом, видим, что селекты на движке MyISAM выполняются быстрее.  
+    Таким образом, видим, что селекты на движке MyISAM выполняются быстрее.  
 
 **********  
 ***Задача 4  
@@ -265,13 +265,13 @@ mysql> SELECT * FROM orders;
     Размер файла логов операций 100 Мб  
 Приведите в ответе измененный файл my.cnf.***  
 
-Вывод файла ниже, добавил в него следующие параметры:  
+    Вывод файла ниже, добавил в него следующие параметры:  
 
-Скорость IO важнее сохранности данных (innodb_flush_log_at_trx_commit = 2)  
-Нужна компрессия таблиц для экономии места на диске (innodb_file_per_table = 1)  
-Размер буффера с незакомиченными транзакциями 1 Мб (innodb_log_buffer_size)  
-Буффер кеширования 30% от ОЗУ (innodb_buffer_pool_size, у меня 4 Гб ОЗУ, значит выставим 1,3 Гб)  
-Размер файла логов операций 100 Мб (innodb_log_file_size = 100 мб, на диске займет 200 мб, поскольку файлов логов всегда два)  
+    Скорость IO важнее сохранности данных (innodb_flush_log_at_trx_commit = 2)  
+    Нужна компрессия таблиц для экономии места на диске (innodb_file_per_table = 1)  
+    Размер буффера с незакомиченными транзакциями 1 Мб (innodb_log_buffer_size)  
+    Буффер кеширования 30% от ОЗУ (innodb_buffer_pool_size, у меня 4 Гб ОЗУ, значит выставим 1,3 Гб)  
+    Размер файла логов операций 100 Мб (innodb_log_file_size = 100 мб, на диске займет 200 мб, поскольку файлов логов всегда два)  
 
     root@ed75c33e2d60:/# cat /etc/mysql/my.cnf  
     # Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.  
