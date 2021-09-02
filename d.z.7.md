@@ -8,7 +8,7 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-03-mysql
 Найдите команду для выдачи статуса БД и приведите в ответе из ее вывода версию сервера БД.  
 Подключитесь к восстановленной БД и получите список таблиц из этой БД.  
 Приведите в ответе количество записей с price > 300.  
-В следующих заданиях мы будем продолжать работу с данным контейнером.  
+В следующих заданиях мы будем продолжать работу с данным контейнером.***  
 
 Скачал нужную версию, запустил и подключился:  
 
@@ -109,7 +109,7 @@ mysql> SELECT count(*) FROM orders WHERE price > 300;
         Фамилия "Pretty"  
         Имя "James"  
 Предоставьте привелегии пользователю test на операции SELECT базы test_db.  
-Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю test и приведите в ответе к задаче.  
+Используя таблицу INFORMATION_SCHEMA.USER_ATTRIBUTES получите данные по пользователю test и приведите в ответе к задаче.***  
 
 CREATE USER test;  
 
@@ -139,117 +139,117 @@ ERROR 1044 (42000): Access denied for user 'root'@'localhost' to database 'infor
 Исследуйте, какой engine используется в таблице БД test_db и приведите в ответе.  
 Измените engine и приведите время выполнения и запрос на изменения из профайлера в ответе:  
     на MyISAM  
-    на InnoDB  
+    на InnoDB***  
 
 Устанавливаем профилирование и смотрим доступные движки:  
 mysql> SET profiling = 1;  
 Query OK, 0 rows affected, 1 warning (0.00 sec)  
 
-mysql> show engines;  
-+--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
-| Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |  
-+--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
-| FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |  
-| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |  
-| InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |  
-| PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |  
-| MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |  
-| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |  
-| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |  
-| CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |  
-| ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |  
-+--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
-9 rows in set (0.01 sec)  
+    mysql> show engines;  
+    +--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
+    | Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |  
+    +--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
+    | FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |  
+    | MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |  
+    | InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |  
+    | PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |  
+    | MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |  
+    | MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |  
+    | BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |  
+    | CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |  
+    | ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |  
+    +--------------------+---------+----------------------------------------------------------------+--------------+------+------------+  
+    9 rows in set (0.01 sec)  
 
-Узнаем, какой движок у нашей таблицы и проверим на нем запросы:  
-mysql> SHOW TABLE STATUS FROM test_dump LIKE 'orders';  
-Name    Engine  ...  
-orders  InnoDB  ...  
-.....  
+    Узнаем, какой движок у нашей таблицы и проверим на нем запросы:  
+    mysql> SHOW TABLE STATUS FROM test_dump LIKE 'orders';  
+    Name    Engine  ...  
+    orders  InnoDB  ...  
+    .....  
 
 mysql> SELECT * FROM orders;  
 
-mysql> SHOW PROFILES;  
-+----------+------------+------------------------------------------------+  
-| Query_ID | Duration   | Query                                          |  
-+----------+------------+------------------------------------------------+  
-|        1 | 0.00397125 | show engines                                   |  
-|        2 | 0.06046500 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
-|        3 | 0.00389125 | SELECT * FROM orders                           |  
-+----------+------------+------------------------------------------------+  
-3 rows in set, 1 warning (0.00 sec)  
+    mysql> SHOW PROFILES;  
+    +----------+------------+------------------------------------------------+  
+    | Query_ID | Duration   | Query                                          |  
+    +----------+------------+------------------------------------------------+  
+    |        1 | 0.00397125 | show engines                                   |  
+    |        2 | 0.06046500 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
+    |        3 | 0.00389125 | SELECT * FROM orders                           |  
+    +----------+------------+------------------------------------------------+  
+    3 rows in set, 1 warning (0.00 sec)  
 
-mysql> SHOW PROFILE FOR QUERY 3;  
-+--------------------------------+----------+  
-| Status                         | Duration |  
-+--------------------------------+----------+  
-| starting                       | 0.000160 |  
-| Executing hook on transaction  | 0.002958 |  
-| starting                       | 0.000039 |  
-| checking permissions           | 0.000048 |  
-| Opening tables                 | 0.000092 |  
-| init                           | 0.000028 |  
-| System lock                    | 0.000035 |  
-| optimizing                     | 0.000022 |  
-| statistics                     | 0.000048 |  
-| preparing                      | 0.000057 |  
-| executing                      | 0.000171 |  
-| end                            | 0.000024 |  
-| query end                      | 0.000019 |  
-| waiting for handler commit     | 0.000031 |  
-| closing tables                 | 0.000032 |  
-| freeing items                  | 0.000056 |  
-| cleaning up                    | 0.000073 |  
-+--------------------------------+----------+  
-17 rows in set, 1 warning (0.00 sec)  
+    mysql> SHOW PROFILE FOR QUERY 3;  
+    +--------------------------------+----------+  
+    | Status                         | Duration |  
+    +--------------------------------+----------+  
+    | starting                       | 0.000160 |  
+    | Executing hook on transaction  | 0.002958 |  
+    | starting                       | 0.000039 |  
+    | checking permissions           | 0.000048 |  
+    | Opening tables                 | 0.000092 |  
+    | init                           | 0.000028 |  
+    | System lock                    | 0.000035 |  
+    | optimizing                     | 0.000022 |  
+    | statistics                     | 0.000048 |  
+    | preparing                      | 0.000057 |  
+    | executing                      | 0.000171 |  
+    | end                            | 0.000024 |  
+    | query end                      | 0.000019 |  
+    | waiting for handler commit     | 0.000031 |  
+    | closing tables                 | 0.000032 |  
+    | freeing items                  | 0.000056 |  
+    | cleaning up                    | 0.000073 |  
+    +--------------------------------+----------+  
+    17 rows in set, 1 warning (0.00 sec)  
 
 Затем изменим его на MyISAM и проверим то же самое с ним:  
 mysql> ALTER TABLE orders ENGINE = MyISAM;  
 Query OK, 5 rows affected (0.12 sec)  
 Records: 5  Duplicates: 0  Warnings: 0  
 
-mysql> SHOW TABLE STATUS FROM test_dump LIKE 'orders';  
-Name    Engine  ...  
-orders  MyISAM  ...  
-.....  
+    mysql> SHOW TABLE STATUS FROM test_dump LIKE 'orders';  
+    Name    Engine  ...  
+    orders  MyISAM  ...  
+    .....  
 
 mysql> SELECT * FROM orders;  
 
-mysql> SHOW PROFILES;  
-+----------+------------+------------------------------------------------+  
-| Query_ID | Duration   | Query                                          |  
-+----------+------------+------------------------------------------------+  
-|        1 | 0.00397125 | show engines                                   |  
-|        2 | 0.06046500 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
-|        3 | 0.00389125 | SELECT * FROM orders                           |  
-|        4 | 0.12465500 | ALTER TABLE orders ENGINE = MyISAM             |  
-|        5 | 0.00462175 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
-|        6 | 0.00076250 | SELECT * FROM orders                           |  
-+----------+------------+------------------------------------------------+  
-6 rows in set, 1 warning (0.00 sec)  
+    mysql> SHOW PROFILES;  
+    +----------+------------+------------------------------------------------+  
+    | Query_ID | Duration   | Query                                          |  
+    +----------+------------+------------------------------------------------+  
+    |        1 | 0.00397125 | show engines                                   |  
+    |        2 | 0.06046500 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
+    |        3 | 0.00389125 | SELECT * FROM orders                           |  
+    |        4 | 0.12465500 | ALTER TABLE orders ENGINE = MyISAM             |  
+    |        5 | 0.00462175 | SHOW TABLE STATUS FROM test_dump LIKE 'orders' |  
+    |        6 | 0.00076250 | SELECT * FROM orders                           |  
+    +----------+------------+------------------------------------------------+  
+    6 rows in set, 1 warning (0.00 sec)  
 
-mysql> SHOW PROFILE FOR QUERY 6;  
-+--------------------------------+----------+  
-| Status                         | Duration |  
-+--------------------------------+----------+  
-| starting                       | 0.000129 |  
-| Executing hook on transaction  | 0.000023 |  
-| starting                       | 0.000025 |  
-| checking permissions           | 0.000021 |  
-| Opening tables                 | 0.000112 |  
-| init                           | 0.000023 |  
-| System lock                    | 0.000031 |  
-| optimizing                     | 0.000021 |  
-| statistics                     | 0.000038 |  
-| preparing                      | 0.000047 |  
-| executing                      | 0.000150 |  
-| end                            | 0.000022 |  
-| query end                      | 0.000022 |  
-| closing tables                 | 0.000026 |  
-| freeing items                  | 0.000040 |  
-| cleaning up                    | 0.000034 |  
-+--------------------------------+----------+  
-16 rows in set, 1 warning (0.00 sec)  
+    mysql> SHOW PROFILE FOR QUERY 6;  
+    +--------------------------------+----------+  
+    | Status                         | Duration |  
+    +--------------------------------+----------+  
+    | starting                       | 0.000129 |  
+    | Executing hook on transaction  | 0.000023 |  
+    | starting                       | 0.000025 |  
+    | checking permissions           | 0.000021 |  
+    | Opening tables                 | 0.000112 |  
+    | init                           | 0.000023 |  
+    | System lock                    | 0.000031 |  
+    | optimizing                     | 0.000021 |  
+    | statistics                     | 0.000038 |  
+    | preparing                      | 0.000047 |  
+    | executing                      | 0.000150 |  
+    | end                            | 0.000022 |  
+    | query end                      | 0.000022 |  
+    | closing tables                 | 0.000026 |  
+    | freeing items                  | 0.000040 |  
+    | cleaning up                    | 0.000034 |  
+    +--------------------------------+----------+  
+    16 rows in set, 1 warning (0.00 sec)  
 
 Таким образом, видим, что селекты на движке MyISAM выполняются быстрее.  
 
@@ -262,7 +262,7 @@ mysql> SHOW PROFILE FOR QUERY 6;
     Размер буффера с незакомиченными транзакциями 1 Мб  
     Буффер кеширования 30% от ОЗУ  
     Размер файла логов операций 100 Мб  
-Приведите в ответе измененный файл my.cnf.  
+Приведите в ответе измененный файл my.cnf.***  
 
 Вывод файла ниже, добавил в него следующие параметры:  
 
