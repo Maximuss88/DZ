@@ -1,6 +1,6 @@
 https://github.com/netology-code/virt-homeworks/tree/master/06-db-03-mysql  
 
-Задача 1  
+***Задача 1  
 Используя docker поднимите инстанс MySQL (версию 8). Данные БД сохраните в volume.  
 Изучите бэкап БД и восстановитесь из него.  
 Перейдите в управляющую консоль mysql внутри контейнера.  
@@ -41,30 +41,30 @@ root@ed75c33e2d60:/# mysql -u root -p
 Enter password:  
 Welcome to the MySQL monitor.  Commands end with ; or \g.  
 ................  
-mysql> \s  
---------------  
-mysql  Ver 8.0.26 for Linux on x86_64 (MySQL Community Server - GPL)  
+    mysql> \s  
+    --------------  
+    mysql  Ver 8.0.26 for Linux on x86_64 (MySQL Community Server - GPL)  
 
-Connection id:          13  
-Current database:  
-Current user:           root@localhost  
-SSL:                    Not in use  
-Current pager:          stdout  
-Using outfile:          ''  
-Using delimiter:        ;  
-Server version:         8.0.26 MySQL Community Server - GPL  
-Protocol version:       10  
-Connection:             Localhost via UNIX socket  
-Server characterset:    utf8mb4  
-Db     characterset:    utf8mb4  
-Client characterset:    latin1  
-Conn.  characterset:    latin1  
-UNIX socket:            /var/run/mysqld/mysqld.sock  
-Binary data as:         Hexadecimal  
-Uptime:                 30 min 31 sec  
+    Connection id:          13  
+    Current database:  
+    Current user:           root@localhost  
+    SSL:                    Not in use  
+    Current pager:          stdout  
+    Using outfile:          ''  
+    Using delimiter:        ;  
+    Server version:         8.0.26 MySQL Community Server - GPL  
+    Protocol version:       10  
+    Connection:             Localhost via UNIX socket  
+    Server characterset:    utf8mb4  
+    Db     characterset:    utf8mb4  
+    Client characterset:    latin1  
+    Conn.  characterset:    latin1  
+    UNIX socket:            /var/run/mysqld/mysqld.sock  
+    Binary data as:         Hexadecimal  
+    Uptime:                 30 min 31 sec  
 
-Threads: 2  Questions: 81  Slow queries: 0  Opens: 158  Flush tables: 3  Open tables: 75  Queries per second avg: 0.044  
---------------  
+    Threads: 2  Questions: 81  Slow queries: 0  Opens: 158  Flush tables: 3  Open tables: 75  Queries per second avg: 0.044  
+    --------------  
 
 Затем подключился к БД и выполнил запросы:  
 
@@ -99,7 +99,7 @@ mysql> SELECT count(*) FROM orders WHERE price > 300;
 1 row in set (0.00 sec)  
 
 **********  
-Задача 2  
+***Задача 2  
 Создайте пользователя test в БД c паролем test-pass, используя:  
     плагин авторизации mysql_native_password  
     срок истечения пароля - 180 дней  
@@ -134,7 +134,7 @@ mysql> UPDATE INFORMATION_SCHEMA.USER_ATTRIBUTES SET ATTRIBUTE='James Pretty' WH
 ERROR 1044 (42000): Access denied for user 'root'@'localhost' to database 'information_schema'  
 
 **********  
-Задача 3  
+***Задача 3  
 Установите профилирование SET profiling = 1. Изучите вывод профилирования команд SHOW PROFILES;.  
 Исследуйте, какой engine используется в таблице БД test_db и приведите в ответе.  
 Измените engine и приведите время выполнения и запрос на изменения из профайлера в ответе:  
@@ -254,7 +254,7 @@ mysql> SHOW PROFILE FOR QUERY 6;
 Таким образом, видим, что селекты на движке MyISAM выполняются быстрее.  
 
 **********  
-Задача 4  
+***Задача 4  
 Изучите файл my.cnf в директории /etc/mysql.  
 Измените его согласно ТЗ (движок InnoDB):  
     Скорость IO важнее сохранности данных  
@@ -272,39 +272,39 @@ mysql> SHOW PROFILE FOR QUERY 6;
 Буффер кеширования 30% от ОЗУ (innodb_buffer_pool_size, у меня 4 Гб ОЗУ, значит выставим 1,3 Гб)  
 Размер файла логов операций 100 Мб (innodb_log_file_size = 100 мб, на диске займет 200 мб, поскольку файлов логов всегда два)  
 
-root@ed75c33e2d60:/# cat /etc/mysql/my.cnf  
-# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.  
-#  
-# This program is free software; you can redistribute it and/or modify  
-# it under the terms of the GNU General Public License as published by  
-# the Free Software Foundation; version 2 of the License.  
-#  
-# This program is distributed in the hope that it will be useful,  
-# but WITHOUT ANY WARRANTY; without even the implied warranty of  
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  
-# GNU General Public License for more details.  
-#  
-# You should have received a copy of the GNU General Public License  
-# along with this program; if not, write to the Free Software  
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA  
+    root@ed75c33e2d60:/# cat /etc/mysql/my.cnf  
+    # Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.  
+    #  
+    # This program is free software; you can redistribute it and/or modify  
+    # it under the terms of the GNU General Public License as published by  
+    # the Free Software Foundation; version 2 of the License.  
+    #  
+    # This program is distributed in the hope that it will be useful,  
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of  
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the  
+    # GNU General Public License for more details.  
+    #  
+    # You should have received a copy of the GNU General Public License  
+    # along with this program; if not, write to the Free Software  
+    # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA  
 
-#  
-# The MySQL  Server configuration file.  
-#  
-# For explanations see  
-# http://dev.mysql.com/doc/mysql/en/server-system-variables.html  
+    #  
+    # The MySQL  Server configuration file.  
+    #  
+    # For explanations see  
+    # http://dev.mysql.com/doc/mysql/en/server-system-variables.html  
 
-[mysqld]  
-pid-file        = /var/run/mysqld/mysqld.pid  
-socket          = /var/run/mysqld/mysqld.sock  
-datadir         = /var/lib/mysql  
-secure-file-priv= NULL  
+    [mysqld]  
+    pid-file        = /var/run/mysqld/mysqld.pid  
+    socket          = /var/run/mysqld/mysqld.sock  
+    datadir         = /var/lib/mysql  
+    secure-file-priv= NULL  
 
-innodb_flush_log_at_trx_commit = 2  
-innodb_file_per_table          = 1  
-innodb_log_buffer_size         = 1M  
-innodb_buffer_pool_size        = 1300M  
-innodb_log_file_size           = 100M  
+    innodb_flush_log_at_trx_commit = 2  
+    innodb_file_per_table          = 1  
+    innodb_log_buffer_size         = 1M  
+    innodb_buffer_pool_size        = 1300M  
+    innodb_log_file_size           = 100M  
 
-# Custom config should go here  
-!includedir /etc/mysql/conf.d/  
+    # Custom config should go here  
+    !includedir /etc/mysql/conf.d/  
