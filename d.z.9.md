@@ -1,19 +1,19 @@
-***Задача 1
-В этом задании вы потренируетесь в:
-    установке elasticsearch
-    первоначальном конфигурировании elastcisearch
-    запуске elasticsearch в docker
-Используя докер образ centos:7 как базовый и документацию по установке и запуску Elastcisearch:
-    составьте Dockerfile-манифест для elasticsearch
-    соберите docker-образ и сделайте push в ваш docker.io репозиторий
-    запустите контейнер из получившегося образа и выполните запрос пути / c хост-машины
-Требования к elasticsearch.yml:
-    данные path должны сохраняться в /var/lib
-    имя ноды должно быть netology_test
-В ответе приведите:
-    текст Dockerfile манифеста
-    ссылку на образ в репозитории dockerhub
-    ответ elasticsearch на запрос пути / в json виде***
+***Задача 1***
+***В этом задании вы потренируетесь в:***
+    ***установке elasticsearch***
+    ***первоначальном конфигурировании elastcisearch***
+    ***запуске elasticsearch в docker***
+***Используя докер образ centos:7 как базовый и документацию по установке и запуску Elastcisearch:***
+    ***составьте Dockerfile-манифест для elasticsearch***
+    ***соберите docker-образ и сделайте push в ваш docker.io репозиторий***
+    ***запустите контейнер из получившегося образа и выполните запрос пути / c хост-машины***
+***Требования к elasticsearch.yml:***
+    ***данные path должны сохраняться в /var/lib***
+    ***имя ноды должно быть netology_test***
+***В ответе приведите:***
+    ***текст Dockerfile манифеста***
+    ***ссылку на образ в репозитории dockerhub***
+    ***ответ elasticsearch на запрос пути / в json виде***
 
 
     Создал докерфайл (из-за того, что elasticsearch не запускается из-под root, и того, что данные path должны сохраняться в /var/lib, придется дать всем полные         права на директорию (как временное решение, на настоящем сервере можно задать гибкие права через ACL)):
@@ -162,36 +162,36 @@ ind-3    	2 	        4
     ind-2            0 p STARTED     0   208b 127.0.0.1 netology_test
     ind-2            0 r UNASSIGNED
 
-[root@e17499370674 /]# curl http://127.0.0.1:9200/_cluster/health?pretty
-{
-  "cluster_name" : "elasticsearch",
-  "status" : "yellow",
-  "timed_out" : false,
-  "number_of_nodes" : 1,
-  "number_of_data_nodes" : 1,
-  "active_primary_shards" : 8,
-  "active_shards" : 8,
-  "relocating_shards" : 0,
-  "initializing_shards" : 0,
-  "unassigned_shards" : 10,
-  "delayed_unassigned_shards" : 0,
-  "number_of_pending_tasks" : 0,
-  "number_of_in_flight_fetch" : 0,
-  "task_max_waiting_in_queue_millis" : 0,
-  "active_shards_percent_as_number" : 44.44444444444444
-}
+    [root@e17499370674 /]# curl http://127.0.0.1:9200/_cluster/health?pretty
+    {
+      "cluster_name" : "elasticsearch",
+      "status" : "yellow",
+      "timed_out" : false,
+      "number_of_nodes" : 1,
+      "number_of_data_nodes" : 1,
+      "active_primary_shards" : 8,
+      "active_shards" : 8,
+      "relocating_shards" : 0,
+      "initializing_shards" : 0,
+      "unassigned_shards" : 10,
+      "delayed_unassigned_shards" : 0,
+      "number_of_pending_tasks" : 0,
+      "number_of_in_flight_fetch" : 0,
+      "task_max_waiting_in_queue_millis" : 0,
+      "active_shards_percent_as_number" : 44.44444444444444
+    }
 
-Статус кластера и индексов ind-2 и ind-3 определён как "yellow" потому, что primary шарды в состоянии STARTED, а реплики в состоянии UNASSIGNED (а в индексе ind-1 нет реплик).
+    Статус кластера и индексов ind-2 и ind-3 определён как "yellow" потому, что primary шарды в состоянии STARTED, а реплики в состоянии UNASSIGNED (а в индексе ind-1 нет реплик).
 
-И наконец, удалим все созданные индексы:
-[root@e17499370674 /]# curl -X DELETE "127.0.0.1:9200/ind-1?pretty"
-{
-  "acknowledged" : true
-}
-........
+    И наконец, удалим все созданные индексы:
+    [root@e17499370674 /]# curl -X DELETE "127.0.0.1:9200/ind-1?pretty"
+    {
+      "acknowledged" : true
+    }
+    ........
 
-[root@e17499370674 /]# curl http://127.0.0.1:9200/_cat/indices?pretty
-green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
+    [root@e17499370674 /]# curl http://127.0.0.1:9200/_cat/indices?pretty
+    green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
  
 **********
 Задача 3
