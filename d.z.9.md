@@ -1,19 +1,19 @@
-***Задача 1***
-***В этом задании вы потренируетесь в:***
-    ***установке elasticsearch***
-    ***первоначальном конфигурировании elastcisearch***
-    ***запуске elasticsearch в docker***
-***Используя докер образ centos:7 как базовый и документацию по установке и запуску Elastcisearch:***
-    ***составьте Dockerfile-манифест для elasticsearch***
-    ***соберите docker-образ и сделайте push в ваш docker.io репозиторий***
-    ***запустите контейнер из получившегося образа и выполните запрос пути / c хост-машины***
-***Требования к elasticsearch.yml:***
-    ***данные path должны сохраняться в /var/lib***
-    ***имя ноды должно быть netology_test***
-***В ответе приведите:***
-    ***текст Dockerfile манифеста***
-    ***ссылку на образ в репозитории dockerhub***
-    ***ответ elasticsearch на запрос пути / в json виде***
+***Задача 1  
+В этом задании вы потренируетесь в:  
+    установке elasticsearch  
+    первоначальном конфигурировании elastcisearch  
+    запуске elasticsearch в docker  
+Используя докер образ centos:7 как базовый и документацию по установке и запуску Elastcisearch:  
+    составьте Dockerfile-манифест для elasticsearch  
+    соберите docker-образ и сделайте push в ваш docker.io репозиторий  
+    запустите контейнер из получившегося образа и выполните запрос пути / c хост-машины  
+Требования к elasticsearch.yml:  
+    данные path должны сохраняться в /var/lib  
+    имя ноды должно быть netology_test  
+В ответе приведите:  
+    текст Dockerfile манифеста  
+    ссылку на образ в репозитории dockerhub  
+    ответ elasticsearch на запрос пути / в json виде***  
 
 
     Создал докерфайл (из-за того, что elasticsearch не запускается из-под root, и того, что данные path должны сохраняться в /var/lib, придется дать всем полные         права на директорию (как временное решение, на настоящем сервере можно задать гибкие права через ACL)):
@@ -55,11 +55,9 @@
 
     https://hub.docker.com/layers/166159901/maximuss88/test/elastic1/images/sha256-c0ae1cb1fc0d9fbbf699fee6aa8e742c53a4cc0ee510590e7a3bac527dab9b95?context=repo&tab=layers
 
-    Потом запустил контейнер, подключился, отредактировал elasticsearch.yml, перезапустил elasticsearch:
-    [max@max_centos ~]$ docker exec -it a34d52e7fb66 /bin/bash
+    Потом запустил контейнер, подключился (docker exec -it a34d52e7fb66 /bin/bash), отредактировал elasticsearch.yml, перезапустил elasticsearch.
 
-    [root@a34d52e7fb66 elasticsearch-7.14.1]# nano /var/elasticsearch-7.14.1/config/elasticsearch.yml
-    Раскомментировал и изменил
+    В файле /var/elasticsearch-7.14.1/config/elasticsearch.yml раскомментировал и изменил:
     node.name: netology_test
     path.data: /var/lib
 
@@ -82,20 +80,20 @@
       "tagline" : "You Know, for Search"
 
 **********
-***Задача 2
-В этом задании вы научитесь:
-    создавать и удалять индексы
-    изучать состояние кластера
-    обосновывать причину деградации доступности данных
-Ознакомтесь с документацией и добавьте в elasticsearch 3 индекса, в соответствии со таблицей:
-Имя 	Количество реплик 	Количество шард
-ind-1   	0 	        1
-ind-2 	        1 	        2
-ind-3    	2 	        4
-Получите список индексов и их статусов, используя API и приведите в ответе на задание.
-Получите состояние кластера elasticsearch, используя API.
-Как вы думаете, почему часть индексов и кластер находится в состоянии yellow?
-Удалите все индексы.***
+***Задача 2  
+В этом задании вы научитесь:  
+    создавать и удалять индексы  
+    изучать состояние кластера  
+    обосновывать причину деградации доступности данных  
+Ознакомтесь с документацией и добавьте в elasticsearch 3 индекса, в соответствии со таблицей:  
+Имя 	Количество реплик 	Количество шард  
+ind-1       	0 	            1  
+ind-2 	      1 	            2  
+ind-3       	2 	            4  
+Получите список индексов и их статусов, используя API и приведите в ответе на задание.  
+Получите состояние кластера elasticsearch, используя API.  
+Как вы думаете, почему часть индексов и кластер находится в состоянии yellow?  
+Удалите все индексы.***  
 
 
     Запрашиваем статус кластера:
@@ -194,115 +192,115 @@ ind-3    	2 	        4
     green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
  
 **********
-Задача 3
-В данном задании вы научитесь:
-    создавать бэкапы данных
-    восстанавливать индексы из бэкапов
-Создайте директорию {путь до корневой директории с elasticsearch в образе}/snapshots.
-Используя API зарегистрируйте данную директорию как snapshot repository c именем netology_backup.
-Приведите в ответе запрос API и результат вызова API для создания репозитория.
-Создайте индекс test с 0 реплик и 1 шардом и приведите в ответе список индексов.
-Создайте snapshot состояния кластера elasticsearch.
-Приведите в ответе список файлов в директории со snapshotами.
-Удалите индекс test и создайте индекс test-2. Приведите в ответе список индексов.
-Восстановите состояние кластера elasticsearch из snapshot, созданного ранее.
-Приведите в ответе запрос к API восстановления и итоговый список индексов.
+***Задача 3  
+В данном задании вы научитесь:  
+    создавать бэкапы данных  
+    восстанавливать индексы из бэкапов  
+Создайте директорию {путь до корневой директории с elasticsearch в образе}/snapshots.  
+Используя API зарегистрируйте данную директорию как snapshot repository c именем netology_backup.  
+Приведите в ответе запрос API и результат вызова API для создания репозитория.  
+Создайте индекс test с 0 реплик и 1 шардом и приведите в ответе список индексов.  
+Создайте snapshot состояния кластера elasticsearch.  
+Приведите в ответе список файлов в директории со snapshotами.  
+Удалите индекс test и создайте индекс test-2. Приведите в ответе список индексов.  
+Восстановите состояние кластера elasticsearch из snapshot, созданного ранее.  
+Приведите в ответе запрос к API восстановления и итоговый список индексов.***  
 
 
-Создал каталог /var/elasticsearch-7.14.1/snapshots/, добавил в конфиг elasticsearch.yml строку (path.repo: /var/elasticsearch-7.14.1/snapshots/), перезапустил elasticsearch и зарегистрировал snapshot repository:
-[root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "type": "fs",
->   "settings": {
->     "location": "my_backup_location"
->   }
-> }
-> '
-{
-  "acknowledged" : true
-}
+    Создал каталог /var/elasticsearch-7.14.1/snapshots/, добавил в конфиг elasticsearch.yml строку (path.repo: /var/elasticsearch-7.14.1/snapshots/), перезапустил    elasticsearch и зарегистрировал snapshot repository:
+    [root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
+    > {
+    >   "type": "fs",
+    >   "settings": {
+    >     "location": "my_backup_location"
+    >   }
+    > }
+    > '
+    {
+      "acknowledged" : true
+    }
 
-Затем создаём индекс test и выводим список индексов:
-[root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/test?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "settings": {
->     "number_of_shards": 1,
->     "number_of_replicas": 0
->   }
-> }
-> '
-{
-  "acknowledged" : true,
-  "shards_acknowledged" : true,
-  "index" : "test"
-}
+    Затем создаём индекс test и выводим список индексов:
+    [root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/test?pretty" -H 'Content-Type: application/json' -d'
+    > {
+    >   "settings": {
+    >     "number_of_shards": 1,
+    >     "number_of_replicas": 0
+    >   }
+    > }
+    > '
+    {
+      "acknowledged" : true,
+      "shards_acknowledged" : true,
+      "index" : "test"
+    }
 
-[root@e17499370674 elasticsearch-7.14.1]# curl http://127.0.0.1:9200/_cat/indices?pretty
-green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
-green open test             7T1y4CT0TZSrN--tNuMbiQ 1 0  0  0   208b   208b
+    [root@e17499370674 elasticsearch-7.14.1]# curl http://127.0.0.1:9200/_cat/indices?pretty
+    green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
+    green open test             7T1y4CT0TZSrN--tNuMbiQ 1 0  0  0   208b   208b
 
-Теперь создаём snapshot:
-[root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true&pretty"
-{
-  "snapshot" : {
-    "snapshot" : "snapshot_1",
-    "uuid" : "cuCeYR8gRfKZ27pOfs95rQ",
-    "repository" : "netology_backup",
-    "version_id" : 7140199,
-    "version" : "7.14.1",
-    "indices" : [
-      "test",
-      ".geoip_databases"
-    ],
-............
+    Теперь создаём snapshot:
+    [root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/_snapshot/netology_backup/snapshot_1?wait_for_completion=true&pretty"
+    {
+      "snapshot" : {
+        "snapshot" : "snapshot_1",
+        "uuid" : "cuCeYR8gRfKZ27pOfs95rQ",
+        "repository" : "netology_backup",
+        "version_id" : 7140199,
+        "version" : "7.14.1",
+        "indices" : [
+          "test",
+          ".geoip_databases"
+        ],
+    ............
 
-[root@e17499370674 my_backup_location]# ls -la
-total 40
-drwxrwxr-x 3 elastic elastic   134 Sep 11 12:20 .
-drwxrwxr-x 3 elastic elastic    32 Sep 11 12:15 ..
--rw-rw-r-- 1 elastic elastic   828 Sep 11 12:20 index-0
--rw-rw-r-- 1 elastic elastic     8 Sep 11 12:20 index.latest
-drwxrwxr-x 4 elastic elastic    66 Sep 11 12:20 indices
--rw-rw-r-- 1 elastic elastic 27659 Sep 11 12:20 meta-cuCeYR8gRfKZ27pOfs95rQ.dat
--rw-rw-r-- 1 elastic elastic   437 Sep 11 12:20 snap-cuCeYR8gRfKZ27pOfs95rQ.dat
+    [root@e17499370674 my_backup_location]# ls -la
+    total 40
+    drwxrwxr-x 3 elastic elastic   134 Sep 11 12:20 .
+    drwxrwxr-x 3 elastic elastic    32 Sep 11 12:15 ..
+    -rw-rw-r-- 1 elastic elastic   828 Sep 11 12:20 index-0
+    -rw-rw-r-- 1 elastic elastic     8 Sep 11 12:20 index.latest
+    drwxrwxr-x 4 elastic elastic    66 Sep 11 12:20 indices
+    -rw-rw-r-- 1 elastic elastic 27659 Sep 11 12:20 meta-cuCeYR8gRfKZ27pOfs95rQ.dat
+    -rw-rw-r-- 1 elastic elastic   437 Sep 11 12:20 snap-cuCeYR8gRfKZ27pOfs95rQ.dat
 
-Удаляем первый индекс и создаём второй:
-[root@e17499370674 my_backup_location]# curl -X DELETE "127.0.0.1:9200/test?pretty"
-{
-  "acknowledged" : true
-}
+    Удаляем первый индекс и создаём второй:
+    [root@e17499370674 my_backup_location]# curl -X DELETE "127.0.0.1:9200/test?pretty"
+    {
+      "acknowledged" : true
+    }
 
-[root@e17499370674 my_backup_location]# curl -X PUT "127.0.0.1:9200/test-2?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "settings": {
->     "number_of_shards": 2,
->     "number_of_replicas": 0
->   }
-> }
-> '
-{
-  "acknowledged" : true,
-  "shards_acknowledged" : true,
-  "index" : "test-2"
-}
+    [root@e17499370674 my_backup_location]# curl -X PUT "127.0.0.1:9200/test-2?pretty" -H 'Content-Type: application/json' -d'
+    > {
+    >   "settings": {
+    >     "number_of_shards": 2,
+    >     "number_of_replicas": 0
+    >   }
+    > }
+    > '
+    {
+      "acknowledged" : true,
+      "shards_acknowledged" : true,
+      "index" : "test-2"
+    }
 
-[root@e17499370674 my_backup_location]# curl http://127.0.0.1:9200/_cat/indices?pretty
-green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
-green open test-2           3z8izElVTHSBCrNnhzt9qg 2 0  0  0   416b   416b
+    [root@e17499370674 my_backup_location]# curl http://127.0.0.1:9200/_cat/indices?pretty
+    green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
+    green open test-2           3z8izElVTHSBCrNnhzt9qg 2 0  0  0   416b   416b
 
-И теперь восстанавливаем кластер из бэкапа (здесь возникла неожиданная проблема - ошибка восстановления .geoip_databases, остановить или удалить этот системный индекс непросто и это не рекомендуется, поэтому указал при восстановлении конкретно индекс test):
-[root@e17499370674 my_backup_location]# curl -X POST "127.0.0.1:9200/_snapshot/netology_backup/snapshot_1/_restore?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "indices": "test"
-> }
-> '
-{
-  "accepted" : true
-}
+    И теперь восстанавливаем кластер из бэкапа (здесь возникла неожиданная проблема - ошибка восстановления .geoip_databases, остановить или удалить этот системный  индекс непросто и это не рекомендуется, поэтому указал при восстановлении конкретно индекс test):
+    [root@e17499370674 my_backup_location]# curl -X POST "127.0.0.1:9200/_snapshot/netology_backup/snapshot_1/_restore?pretty" -H 'Content-Type: application/json' -d'
+    > {
+    >   "indices": "test"
+    > }
+    > '
+    {
+      "accepted" : true
+    }
 
-Индекс успешно восстановлен:
-[root@e17499370674 my_backup_location]# curl http://127.0.0.1:9200/_cat/indices?pretty
-green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
-green open test-2           3z8izElVTHSBCrNnhzt9qg 2 0  0  0   416b   416b
-green open test             1SBq1TKmR8e0CcQNBTU3Pg 1 0  0  0   208b   208b
+    Индекс успешно восстановлен:
+    [root@e17499370674 my_backup_location]# curl http://127.0.0.1:9200/_cat/indices?pretty
+    green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
+    green open test-2           3z8izElVTHSBCrNnhzt9qg 2 0  0  0   416b   416b
+    green open test             1SBq1TKmR8e0CcQNBTU3Pg 1 0  0  0   208b   208b
 
