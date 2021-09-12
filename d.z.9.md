@@ -16,7 +16,8 @@
     ответ elasticsearch на запрос пути / в json виде***  
 
 
-    Создал докерфайл (из-за того, что elasticsearch не запускается из-под root, и того, что данные path должны сохраняться в /var/lib, придется дать всем полные         права на директорию (как временное решение, на настоящем сервере можно задать гибкие права через ACL)):
+    Создал докерфайл (из-за того, что elasticsearch не запускается из-под root, и того, что данные path должны сохраняться в /var/lib, придется дать всем полные 
+    права на директорию (как временное решение, на настоящем сервере можно задать гибкие права через ACL)):
     FROM centos:7
     LABEL maintainer "Maks Plaksin"
     WORKDIR /tmp
@@ -207,7 +208,8 @@ ind-3       	2 	            4
 Приведите в ответе запрос к API восстановления и итоговый список индексов.***  
 
 
-    Создал каталог /var/elasticsearch-7.14.1/snapshots/, добавил в конфиг elasticsearch.yml строку (path.repo: /var/elasticsearch-7.14.1/snapshots/), перезапустил    elasticsearch и зарегистрировал snapshot repository:
+    Создал каталог /var/elasticsearch-7.14.1/snapshots/, добавил в конфиг elasticsearch.yml строку (path.repo: /var/elasticsearch-7.14.1/snapshots/), перезапустил 
+    elasticsearch и зарегистрировал snapshot repository:
     [root@e17499370674 elasticsearch-7.14.1]# curl -X PUT "127.0.0.1:9200/_snapshot/netology_backup?pretty" -H 'Content-Type: application/json' -d'
     > {
     >   "type": "fs",
@@ -288,7 +290,8 @@ ind-3       	2 	            4
     green open .geoip_databases TlSPwsqmSvS7ldGhk454Fw 1 0 42 40 42.3mb 42.3mb
     green open test-2           3z8izElVTHSBCrNnhzt9qg 2 0  0  0   416b   416b
 
-    И теперь восстанавливаем кластер из бэкапа (здесь возникла неожиданная проблема - ошибка восстановления .geoip_databases, остановить или удалить этот системный  индекс непросто и это не рекомендуется, поэтому указал при восстановлении конкретно индекс test):
+    И теперь восстанавливаем кластер из бэкапа (здесь возникла неожиданная проблема - ошибка восстановления .geoip_databases, 
+    остановить или удалить этот системный индекс непросто и это не рекомендуется, поэтому указал при восстановлении конкретно индекс test):
     [root@e17499370674 my_backup_location]# curl -X POST "127.0.0.1:9200/_snapshot/netology_backup/snapshot_1/_restore?pretty" -H 'Content-Type: application/json' -d'
     > {
     >   "indices": "test"
