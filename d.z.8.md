@@ -1,6 +1,6 @@
 https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql  
 
-Задача 1  
+***Задача 1  
 Используя docker поднимите инстанс PostgreSQL (версию 13). Данные БД сохраните в volume.  
 Подключитесь к БД PostgreSQL используя psql.  
 Воспользуйтесь командой \? для вывода подсказки по имеющимся в psql управляющим командам.  
@@ -9,14 +9,14 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql
     подключения к БД  
     вывода списка таблиц  
     вывода описания содержимого таблиц  
-    выхода из psql  
+    выхода из psql***  
 
-Поднял контейнер и подключился, нашел команды:  
-1. \l[+]   [PATTERN]      list databases  
-2. \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}   connect to new database (currently "postgres")  
-3. \d[S+]                 list tables, views, and sequences  
-4. \d[S+]  NAME           describe table, view, sequence, or index  
-5. \q                     quit psql  
+    Поднял контейнер и подключился, нашел команды:  
+    1. \l[+]   [PATTERN]      list databases  
+    2. \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}   connect to new database (currently "postgres")  
+    3. \d[S+]                 list tables, views, and sequences  
+    4. \d[S+]  NAME           describe table, view, sequence, or index  
+    5. \q                     quit psql  
     
 **********    
 Задача 2  
