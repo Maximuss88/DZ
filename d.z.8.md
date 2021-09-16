@@ -1,6 +1,6 @@
 https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql  
 
-Задача 1  
+***Задача 1  
 Используя docker поднимите инстанс PostgreSQL (версию 13). Данные БД сохраните в volume.  
 Подключитесь к БД PostgreSQL используя psql.  
 Воспользуйтесь командой \? для вывода подсказки по имеющимся в psql управляющим командам.  
@@ -9,14 +9,23 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql
     подключения к БД  
     вывода списка таблиц  
     вывода описания содержимого таблиц  
-    выхода из psql  
+    выхода из psql***  
 
+<<<<<<< HEAD
 Поднял контейнер c PostgreSQL, подключился к нему (docker exec -it 76fc79fbac69 bash) и к БД (psql -U postgres), нашел команды:  
 1. \l[+]   [PATTERN]      list databases  
 2. \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}   connect to new database (currently "postgres")  
 3. \d[S+]                 list tables, views, and sequences  
 4. \d[S+]  NAME           describe table, view, sequence, or index  
 5. \q                     quit psql  
+=======
+    Поднял контейнер и подключился, нашел команды:  
+    1. \l[+]   [PATTERN]      list databases  
+    2. \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}   connect to new database (currently "postgres")  
+    3. \d[S+]                 list tables, views, and sequences  
+    4. \d[S+]  NAME           describe table, view, sequence, or index  
+    5. \q                     quit psql  
+>>>>>>> 419e473a712fb2aef66340dd5d2e3215bc8e6bde
     
 **********    
 Задача 2  
@@ -133,6 +142,7 @@ drwxr-xr-x 1 root root     51 Aug 21 13:19 ..
 -rw-rw-r-- 1 1000 1000   2083 Aug 21 13:18 test_dump3.sql  
 -rw-rw-r-- 1 1000 1000 171427 Aug 20 16:29 test_dump.sql  
 
+<<<<<<< HEAD
 
 Столбец title есть только в таблице orders:
 
@@ -151,3 +161,6 @@ test_database=# select * from orders;
 
 Добавить уникальность значения столбца существующей таблицы можно так:
 ALTER TABLE orders ADD CONSTRAINT title_uniq UNIQUE (title);
+=======
+Думаю, если таблица секционирована, то можно создать primary индекс для каждой секции, а если не секционирована, то проблем быть не должно.  
+>>>>>>> 419e473a712fb2aef66340dd5d2e3215bc8e6bde
