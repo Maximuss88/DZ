@@ -11,7 +11,7 @@ https://github.com/netology-code/virt-homeworks/tree/master/06-db-04-postgresql
     вывода описания содержимого таблиц  
     выхода из psql  
 
-Поднял контейнер и подключился, нашел команды:  
+Поднял контейнер c PostgreSQL, подключился к нему (docker exec -it 76fc79fbac69 bash) и к БД (psql -U postgres), нашел команды:  
 1. \l[+]   [PATTERN]      list databases  
 2. \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}   connect to new database (currently "postgres")  
 3. \d[S+]                 list tables, views, and sequences  
@@ -76,9 +76,33 @@ INFO:  "pg_authid": scanned 1 of 1 pages, containing 11 live rows and 0 dead row
 ...........  
 
 
-Вывод (select * from pg_stats;) огромный, не нашел там столбца orders, но SQL-запрос на нахождение наибольшего элемента столбца должен быть таким:  
-test_database=# select MAX(orders) from pg_stats;  
-ERROR:  column "orders" does not exist  
+Таблица pg_stats содержит информацию о других таблицах, запросим для orders:  
+
+postgres=# \c test_database 
+You are now connected to database "test_database" as user "postgres".
+
+test_database=# select avg_width from pg_stats where tablename = 'orders';
+ avg_width 
+-----------
+         4
+        16
+         4
+(3 rows)
+
+Соответственно столбец с наибольшим средним значением элемента - второй, то есть title, и действительно:
+
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  2 | My little database   |   500
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  6 | WAL never lies       |   900
+  7 | Me and my bash-pet   |   499
+  8 | Dbiezdmin            |   501
+(8 rows)
 
 **********  
 Задача 3  
@@ -86,14 +110,17 @@ ERROR:  column "orders" does not exist
 Предложите SQL-транзакцию для проведения данной операции.  
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?  
 
-Для старой таблицы оставим (price>499), просто переименуем таблицу, и создадим новую  
+Для старой таблицы оставим (price>499), просто переименуем таблицу в orders_1, и создадим новую:  
 CREATE TABLE orders_2 PARTITION OF orders_1 FOR VALUES IN (0..499);  
+ALTER TABLE orders_1 DETACH PARTITION orders_2;  
+
 Думаю да, можно создать заранее несколько секций для разных диапазонов значений.  
 
 **********  
 Задача 4  
 Используя утилиту pg_dump создайте бекап БД test_database.  
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца title для таблиц test_database?  
+
 
 test_database=# \q  
 root@76fc79fbac69:/# pg_dump -U postgres test_database > /tmp/test_database.sql  
@@ -106,4 +133,21 @@ drwxr-xr-x 1 root root     51 Aug 21 13:19 ..
 -rw-rw-r-- 1 1000 1000   2083 Aug 21 13:18 test_dump3.sql  
 -rw-rw-r-- 1 1000 1000 171427 Aug 20 16:29 test_dump.sql  
 
-Думаю, если таблица секционирована, то можно создать primary индекс для каждой секции, а если не секционирована, то проблем быть не должно.  
+
+Столбец title есть только в таблице orders:
+
+test_database=# select * from orders;
+ id |        title         | price 
+----+----------------------+-------
+  1 | War and peace        |   100
+  2 | My little database   |   500
+  3 | Adventure psql time  |   300
+  4 | Server gravity falls |   300
+  5 | Log gossips          |   123
+  6 | WAL never lies       |   900
+  7 | Me and my bash-pet   |   499
+  8 | Dbiezdmin            |   501
+(8 rows)
+
+Добавить уникальность значения столбца существующей таблицы можно так:
+ALTER TABLE orders ADD CONSTRAINT title_uniq UNIQUE (title);
