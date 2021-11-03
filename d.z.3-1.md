@@ -1,181 +1,182 @@
-https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-01-base
-Домашнее задание к занятию "08.01 Введение в Ansible"
-Подготовка к выполнению
-    Установите ansible версии 2.10 или выше.
-    Создайте свой собственный публичный репозиторий на github с произвольным именем.
-    Скачайте playbook из репозитория с домашним заданием и перенесите его в свой репозиторий.
+    https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-01-base
+***Домашнее задание к занятию "08.01 Введение в Ansible"***
+***Подготовка к выполнению***
+    ***Установите ansible версии 2.10 или выше.***
+    ***Создайте свой собственный публичный репозиторий на github с произвольным именем.***
+    ***Скачайте playbook из репозитория с домашним заданием и перенесите его в свой репозиторий.***
 
     
-Обновляем установочные утилиты (иначе возникает ошибка "No module named 'setuptools_rust'") и затем устанавливаем Ansible:
-[root@max_centos ansible-test]# pip3 install --upgrade setuptools
-[root@max_centos ansible-test]# pip3 install --upgrade pip
+    Обновляем установочные утилиты (иначе возникает ошибка "No module named 'setuptools_rust'") и затем устанавливаем Ansible:
+    [root@max_centos ansible-test]# pip3 install --upgrade setuptools
+    [root@max_centos ansible-test]# pip3 install --upgrade pip
 
-[max@max_centos ansible-test]$ pip3 install ansible
-.......
-Successfully installed MarkupSafe-2.0.1 ansible-4.7.0 ansible-core-2.11.6 cffi-1.15.0 cryptography-35.0.0 jinja2-3.0.2 packaging-21.2 pycparser-2.20 pyparsing-2.4.7 resolvelib-0.5.4
+    [max@max_centos ansible-test]$ pip3 install ansible
+    .......
+    Successfully installed MarkupSafe-2.0.1 ansible-4.7.0 ansible-core-2.11.6 cffi-1.15.0 cryptography-35.0.0 jinja2-3.0.2 packaging-21.2 pycparser-2.20    pyparsing-2.4.7 resolvelib-0.5.4
 
-[max@max_centos ansible-test]$ ansible --version
-[DEPRECATION WARNING]: .......
-ansible [core 2.11.6] 
-.........
+    [max@max_centos ansible-test]$ ansible --version
+    [DEPRECATION WARNING]: .......
+    ansible [core 2.11.6] 
+    .........
   
 
-Основная часть
-1. Попробуйте запустить playbook на окружении из test.yml, зафиксируйте какое значение имеет факт some_fact для указанного хоста при выполнении playbook'a.
+***Основная часть***
 
-[max@max_centos playbook]$ ansible-playbook site.yml -i inventory/test.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+***1. Попробуйте запустить playbook на окружении из test.yml, зафиксируйте какое значение имеет факт some_fact для указанного хоста при выполнении playbook'a.***
 
-PLAY [Print os facts] ****************************************************************************************************************************************
+    [max@max_centos playbook]$ ansible-playbook site.yml -i inventory/test.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [localhost]
+    PLAY [Print os facts] ****************************************************************************************************************************************
 
-TASK [Print OS] **********************************************************************************************************************************************
-ok: [localhost] => {
-    "msg": "CentOS"
-}
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [localhost]
 
-TASK [Print fact] ********************************************************************************************************************************************
-ok: [localhost] => {
-    "msg": 12
-}
+    TASK [Print OS] **********************************************************************************************************************************************
+    ok: [localhost] => {
+        "msg": "CentOS"
+    }
 
-PLAY RECAP ***************************************************************************************************************************************************
-localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+    TASK [Print fact] ********************************************************************************************************************************************
+    ok: [localhost] => {
+        "msg": 12
+    }
 
-2. Найдите файл с переменными (group_vars) в котором задаётся найденное в первом пункте значение и поменяйте его на 'all default fact'.
+    PLAY RECAP ***************************************************************************************************************************************************
+    localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
-Отредактировал файл /home/max/ansible-test/playbook/group_vars/all/examp.yml
+***2. Найдите файл с переменными (group_vars) в котором задаётся найденное в первом пункте значение и поменяйте его на 'all default fact'.***
 
-[max@max_centos playbook]$ ansible-playbook -i inventory/test.yml site.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+    Отредактировал файл /home/max/ansible-test/playbook/group_vars/all/examp.yml
 
-PLAY [Print os facts] ****************************************************************************************************************************************
+    [max@max_centos playbook]$ ansible-playbook -i inventory/test.yml site.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [localhost]
+    PLAY [Print os facts] ****************************************************************************************************************************************
 
-TASK [Print OS] **********************************************************************************************************************************************
-ok: [localhost] => {
-    "msg": "CentOS"
-}
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [localhost]
 
-TASK [Print fact] ********************************************************************************************************************************************
-ok: [localhost] => {
-    "msg": "all default fact"
-}
+    TASK [Print OS] **********************************************************************************************************************************************
+    ok: [localhost] => {
+        "msg": "CentOS"
+    }
 
-PLAY RECAP ***************************************************************************************************************************************************
-localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+    TASK [Print fact] ********************************************************************************************************************************************
+    ok: [localhost] => {
+        "msg": "all default fact"
+    }
 
-3. Воспользуйтесь подготовленным (используется docker) или создайте собственное окружение для проведения дальнейших испытаний.
+    PLAY RECAP ***************************************************************************************************************************************************
+    localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
 
-docker run -d --name centos7_1 pycontribs/centos:7 sleep 600000
-docker run -d --name ubuntu_1 pycontribs/ubuntu:latest sleep 600000
+***3. Воспользуйтесь подготовленным (используется docker) или создайте собственное окружение для проведения дальнейших испытаний.***
 
-[max@max_centos playbook]$ docker ps
-CONTAINER ID   IMAGE                      COMMAND          CREATED         STATUS         PORTS     NAMES
-6d43adf88ad5   pycontribs/ubuntu:latest   "sleep 600000"   5 seconds ago   Up 3 seconds             ubuntu_1
-32b286339191   pycontribs/centos:7        "sleep 600000"   3 minutes ago   Up 3 minutes             centos7_1
+    docker run -d --name centos7_1 pycontribs/centos:7 sleep 600000
+    docker run -d --name ubuntu_1 pycontribs/ubuntu:latest sleep 600000
 
-Взял примеры контейнеров из лекции, также отредактировал prod.yml, изменив заданные имена контейнеров на мои.
+    [max@max_centos playbook]$ docker ps
+    CONTAINER ID   IMAGE                      COMMAND          CREATED         STATUS         PORTS     NAMES
+    6d43adf88ad5   pycontribs/ubuntu:latest   "sleep 600000"   5 seconds ago   Up 3 seconds             ubuntu_1
+    32b286339191   pycontribs/centos:7        "sleep 600000"   3 minutes ago   Up 3 minutes             centos7_1
 
-4. Проведите запуск playbook на окружении из prod.yml. Зафиксируйте полученные значения some_fact для каждого из managed host.
+    Взял примеры контейнеров из лекции, также отредактировал prod.yml, изменив заданные имена контейнеров на мои.
 
-[max@max_centos playbook]$ ansible-playbook -i inventory/prod.yml site.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+***4. Проведите запуск playbook на окружении из prod.yml. Зафиксируйте полученные значения some_fact для каждого из managed host.***
 
-PLAY [Print os facts] ****************************************************************************************************************************************
+    [max@max_centos playbook]$ ansible-playbook -i inventory/prod.yml site.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-[DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ubuntu_1 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with 
-prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible-
-core/2.11/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can be 
-disabled by setting deprecation_warnings=False in ansible.cfg.
-ok: [ubuntu_1]
-ok: [centos7_1]
+    PLAY [Print os facts] ****************************************************************************************************************************************
 
-TASK [Print OS] **********************************************************************************************************************************************
-ok: [centos7_1] => {
-    "msg": "CentOS"
-}
-ok: [ubuntu_1] => {
-    "msg": "Ubuntu"
-}
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    [DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ubuntu_1 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with 
+    prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible-
+    core/2.11/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can be 
+    disabled by setting deprecation_warnings=False in ansible.cfg.
+    ok: [ubuntu_1]
+    ok: [centos7_1]
 
-TASK [Print fact] ********************************************************************************************************************************************
-ok: [centos7_1] => {
-    "msg": "el"
-}
-ok: [ubuntu_1] => {
-    "msg": "deb"
-}
+    TASK [Print OS] **********************************************************************************************************************************************
+    ok: [centos7_1] => {
+        "msg": "CentOS"
+    }
+    ok: [ubuntu_1] => {
+        "msg": "Ubuntu"
+    }
 
-PLAY RECAP ***************************************************************************************************************************************************
-centos7_1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-ubuntu_1                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    TASK [Print fact] ********************************************************************************************************************************************
+    ok: [centos7_1] => {
+        "msg": "el"
+    }
+    ok: [ubuntu_1] => {
+        "msg": "deb"
+    }
 
-5. Добавьте факты в group_vars каждой из групп хостов так, чтобы для some_fact получились следующие значения: для deb - 'deb default fact', для el - 'el default fact'.
+    PLAY RECAP ***************************************************************************************************************************************************
+    centos7_1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    ubuntu_1                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-Отредактировал файлы examp.yml
+***5. Добавьте факты в group_vars каждой из групп хостов так, чтобы для some_fact получились следующие значения: для deb - 'deb default fact', для el - 'el default fact'.***
 
-6. Повторите запуск playbook на окружении prod.yml. Убедитесь, что выдаются корректные значения для всех хостов.
+    Отредактировал файлы examp.yml
 
-[max@max_centos playbook]$ ansible-playbook -i inventory/prod.yml site.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+***6. Повторите запуск playbook на окружении prod.yml. Убедитесь, что выдаются корректные значения для всех хостов.***
 
-PLAY [Print os facts] ****************************************************************************************************************************************
+    [max@max_centos playbook]$ ansible-playbook -i inventory/prod.yml site.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-[DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ubuntu_1 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with 
-prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible-
-core/2.11/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can be 
-disabled by setting deprecation_warnings=False in ansible.cfg.
-ok: [ubuntu_1]
-ok: [centos7_1]
+    PLAY [Print os facts] ****************************************************************************************************************************************
 
-TASK [Print OS] **********************************************************************************************************************************************
-ok: [centos7_1] => {
-    "msg": "CentOS"
-}
-ok: [ubuntu_1] => {
-    "msg": "Ubuntu"
-}
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    [DEPRECATION WARNING]: Distribution Ubuntu 18.04 on host ubuntu_1 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with 
+    prior Ansible releases. A future Ansible release will default to using the discovered platform python for this host. See https://docs.ansible.com/ansible-
+    core/2.11/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can be 
+    disabled by setting deprecation_warnings=False in ansible.cfg.
+    ok: [ubuntu_1]
+    ok: [centos7_1]
 
-TASK [Print fact] ********************************************************************************************************************************************
-ok: [centos7_1] => {
-    "msg": "el default fact"
-}
-ok: [ubuntu_1] => {
-    "msg": "deb default fact"
-}
+    TASK [Print OS] **********************************************************************************************************************************************
+    ok: [centos7_1] => {
+        "msg": "CentOS"
+    }
+    ok: [ubuntu_1] => {
+        "msg": "Ubuntu"
+    }
 
-PLAY RECAP ***************************************************************************************************************************************************
-centos7_1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-ubuntu_1                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
+    TASK [Print fact] ********************************************************************************************************************************************
+    ok: [centos7_1] => {
+        "msg": "el default fact"
+    }
+    ok: [ubuntu_1] => {
+        "msg": "deb default fact"
+    }
 
-7. При помощи ansible-vault зашифруйте факты в group_vars/deb и group_vars/el с паролем netology.
+    PLAY RECAP ***************************************************************************************************************************************************
+    centos7_1                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    ubuntu_1                   : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0 
 
-[max@max_centos playbook]$ ansible-vault encrypt ./group_vars/deb/examp.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
-New Vault password: 
-Confirm New Vault password: 
-Encryption successful
+***7. При помощи ansible-vault зашифруйте факты в group_vars/deb и group_vars/el с паролем netology.***
 
-Аналогично /group_vars/el/examp.yml
+    [max@max_centos playbook]$ ansible-vault encrypt ./group_vars/deb/examp.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
+    New Vault password: 
+    Confirm New Vault password: 
+    Encryption successful
 
-8. Запустите playbook на окружении prod.yml. При запуске ansible должен запросить у вас пароль. Убедитесь в работоспособности.
+    Аналогично /group_vars/el/examp.yml
+
+***8. Запустите playbook на окружении prod.yml. При запуске ansible должен запросить у вас пароль. Убедитесь в работоспособности.***
 
 [max@max_centos playbook]$ ansible-playbook -i inventory/prod.yml site.yml --ask-vault-pass
 [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
