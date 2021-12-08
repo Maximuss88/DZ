@@ -1,79 +1,79 @@
 https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-02-playbook
-Подготовка к выполнению
-    Создайте свой собственный (или используйте старый) публичный репозиторий на github с произвольным именем.
-    Скачайте playbook из репозитория с домашним заданием и перенесите его в свой репозиторий.
-    Подготовьте хосты в соотвтествии с группами из предподготовленного playbook.
-    Скачайте дистрибутив java и положите его в директорию playbook/files/.
+***Подготовка к выполнению***  
+    ***Создайте свой собственный (или используйте старый) публичный репозиторий на github с произвольным именем.***  
+    ***Скачайте playbook из репозитория с домашним заданием и перенесите его в свой репозиторий.***  
+    ***Подготовьте хосты в соотвтествии с группами из предподготовленного playbook.***  
+    ***Скачайте дистрибутив java и положите его в директорию playbook/files/.***  
 
-Основная часть
-    Приготовьте свой собственный inventory файл prod.yml.
-    Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
-    При создании tasks рекомендую использовать модули: get_url, template, unarchive, file.
-    Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.
-    Запустите ansible-lint site.yml и исправьте ошибки, если они есть.
-    Попробуйте запустить playbook на этом окружении с флагом --check.
-    Запустите playbook на prod.yml окружении с флагом --diff. Убедитесь, что изменения на системе произведены.
-    Повторно запустите playbook с флагом --diff и убедитесь, что playbook идемпотентен.
-    Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.
-    Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.
+***Основная часть
+    ***Приготовьте свой собственный inventory файл prod.yml.***   
+    ***Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.***  
+    ***При создании tasks рекомендую использовать модули: get_url, template, unarchive, file.***  
+    ***Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.***  
+    ***Запустите ansible-lint site.yml и исправьте ошибки, если они есть.***  
+    ***Попробуйте запустить playbook на этом окружении с флагом --check.***  
+    ***Запустите playbook на prod.yml окружении с флагом --diff. Убедитесь, что изменения на системе произведены.***  
+    ***Повторно запустите playbook с флагом --diff и убедитесь, что playbook идемпотентен.***  
+    ***Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.***  
+    ***Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.***  
 
-Как оформить ДЗ?
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
+***Как оформить ДЗ?***  
+***Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.***  
 
 
 
-Создал новую ветку kibana в старом репозитории ansible-test, перенес туда playbook из задания.
-Возникли проблемы при выполнении git push - файл jdk-11.0.13_linux-x64_bin.rpm больше 100 Мб и не укладывается в лимит Гитхаба.
-Поэтому пришлось убрать его из отслеживания гита и оставить только локально (git rm --cached ./files/jdk-11.0.13_linux-x64_bin.tar.gz). 
+    Создал новую ветку kibana в старом репозитории ansible-test, перенес туда playbook из задания.
+    Возникли проблемы при выполнении git push - файл jdk-11.0.13_linux-x64_bin.rpm больше 100 Мб и не укладывается в лимит Гитхаба.
+    Поэтому пришлось убрать его из отслеживания гита и оставить только локально (git rm --cached ./files/jdk-11.0.13_linux-x64_bin.tar.gz). 
 
-Поднял в докере контейнер на основе CentOS, соответственно сконфигурировал файл inventory/prod.yml:
-elasticsearch:
-  hosts:
-    centos_el:
-      ansible_connection: docker
-      ansible_user: root
+    Поднял в докере контейнер на основе CentOS, соответственно сконфигурировал файл inventory/prod.yml:
+    elasticsearch:
+      hosts:
+        centos_el:
+          ansible_connection: docker
+          ansible_user: root
 
-Решил установить Кибану в том же контейнере, что и Эластик, и просто создать для нее новый play в плейбуке site.yml
-Добавил для нее новые переменные в group_vars/elasticsearch/vars.yml, также добавил новый шаблон templates/kib.sh.j2
+    Решил установить Кибану в том же контейнере, что и Эластик, и просто создать для нее новый play в плейбуке site.yml
+    Добавил для нее новые переменные в group_vars/elasticsearch/vars.yml, также добавил новый шаблон templates/kib.sh.j2
 
-Ansible-lint не оказалось по умолчанию в моей версии (ansible [core 2.11.6]), установил отдельно (pip3 install ansible-lint).
-И запустил - ошибок не найдено, только предупреждения:
+    Ansible-lint не оказалось по умолчанию в моей версии (ansible [core 2.11.6]), установил отдельно (pip3 install ansible-lint).
+    И запустил - ошибок не найдено, только предупреждения:
 
-[max@max_centos ansible-test]$ ansible-lint site.yml
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the 
-controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 
-2020, 16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be 
-removed from ansible-core in version 2.12. Deprecation warnings can be disabled
- by setting deprecation_warnings=False in ansible.cfg.
-WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: site.yml
-WARNING  Listing 7 violation(s) that are fatal
-risky-file-permissions: File permissions unset or incorrect
-site.yml:9 Task/Handler: Upload .tar.gz file containing binaries from local storage
+    [max@max_centos ansible-test]$ ansible-lint site.yml
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the 
+    controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 
+    2020, 16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be 
+    removed from ansible-core in version 2.12. Deprecation warnings can be disabled
+     by setting deprecation_warnings=False in ansible.cfg.
+    WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: site.yml
+    WARNING  Listing 7 violation(s) that are fatal
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:9 Task/Handler: Upload .tar.gz file containing binaries from local storage
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:16 Task/Handler: Ensure installation dir exists
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:16 Task/Handler: Ensure installation dir exists
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:32 Task/Handler: Export environment variables
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:32 Task/Handler: Export environment variables
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:53 Task/Handler: Create directrory for Elasticsearch
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:53 Task/Handler: Create directrory for Elasticsearch
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:68 Task/Handler: Set environment Elastic
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:68 Task/Handler: Set environment Elastic
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:89 Task/Handler: Create directrory for Kibana
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:89 Task/Handler: Create directrory for Kibana
 
-risky-file-permissions: File permissions unset or incorrect
-site.yml:104 Task/Handler: Set environment Kibana
+    risky-file-permissions: File permissions unset or incorrect
+    site.yml:104 Task/Handler: Set environment Kibana
 
-You can skip specific rules or tags by adding them to your configuration file:
-# .ansible-lint
-warn_list:  # or 'skip_list' to silence them completely
-  - experimental  # all rules tagged as experimental
+    You can skip specific rules or tags by adding them to your configuration file:
+    # .ansible-lint
+    warn_list:  # or 'skip_list' to silence them completely
+      - experimental  # all rules tagged as experimental
 
-Finished with 0 failure(s), 7 warning(s) on 1 files.
+    Finished with 0 failure(s), 7 warning(s) on 1 files.
 
 
 Затем запустил playbook с флагом --check:
