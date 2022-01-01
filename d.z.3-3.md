@@ -4,21 +4,21 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-03-yandex
     ***Создайте свой собственный (или используйте старый) публичный репозиторий на github с произвольным именем.***  
     ***Скачайте playbook из репозитория с домашним заданием и перенесите его в свой репозиторий.***  
 
-***Основная часть  
+***Основная часть***  
     ***Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.***  
     ***При создании tasks рекомендую использовать модули: get_url, template, yum, apt.***  
-    ***Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.  ***
-    ***Приготовьте свой собственный inventory файл prod.yml. *** 
-    ***Запустите ansible-lint site.yml и исправьте ошибки, если они есть.  ***
-    ***Попробуйте запустить playbook на этом окружении с флагом --check. *** 
-    ***Запустите playbook на prod.yml окружении с флагом --diff. Убедитесь, что изменения на системе произведены. *** 
-    ***Повторно запустите playbook с флагом --diff и убедитесь, что playbook идемпотентен. *** 
-    ***Проделайте шаги с 1 до 8 для создания ещё одного play, который устанавливает и настраивает filebeat.  ***
-    ***Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.  ***
-    ***Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него. *** 
+    ***Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.***  
+    ***Приготовьте свой собственный inventory файл prod.yml.***  
+    ***Запустите ansible-lint site.yml и исправьте ошибки, если они есть.***  
+    ***Попробуйте запустить playbook на этом окружении с флагом --check.***  
+    ***Запустите playbook на prod.yml окружении с флагом --diff. Убедитесь, что изменения на системе произведены.***  
+    ***Повторно запустите playbook с флагом --diff и убедитесь, что playbook идемпотентен.***  
+    ***Проделайте шаги с 1 до 8 для создания ещё одного play, который устанавливает и настраивает filebeat.***  
+    ***Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.***  
+    ***Готовый playbook выложите в свой репозиторий, в ответ предоставьте ссылку на него.***  
 
-***Как оформить ДЗ?  ***
-***Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.  ***
+***Как оформить ДЗ?***  
+***Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.***  
 
 
 
@@ -87,64 +87,61 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-03-yandex
     Finished with 0 failure(s), 2 warning(s) on 1 files.  
 
 
-И затем запустил playbook с флагом --check:  
-[max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --check  
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.  
+    И затем запустил playbook с флагом --check:  
+    [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --check  
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.  
 
-PLAY [Install Elasticsearch] *********************************************************************************************************************************  
+    PLAY [Install Elasticsearch] *********************************************************************************************************************************  
+    TASK [Gathering Facts] *************************************************************************************************************************************** 
+    ok: [el-instance]  
 
-TASK [Gathering Facts] ***************************************************************************************************************************************  
-ok: [el-instance]  
+    TASK [Download Elasticsearch's rpm] ************************************************************************************************************************** 
+    changed: [el-instance]  
 
-TASK [Download Elasticsearch's rpm] **************************************************************************************************************************  
-changed: [el-instance]  
+    TASK [Install Elasticsearch] *********************************************************************************************************************************     fatal: [el-instance]: FAILED! => {"changed": false, "msg": "No RPM file matching '/tmp/elasticsearch-7.14.0-x86_64.rpm' found on system", "rc": 127, "results":  ["No RPM file matching '/tmp/elasticsearch-7.14.0-x86_64.rpm' found on system"]}  
 
-TASK [Install Elasticsearch] *********************************************************************************************************************************  
-fatal: [el-instance]: FAILED! => {"changed": false, "msg": "No RPM file matching '/tmp/elasticsearch-7.14.0-x86_64.rpm' found on system", "rc": 127, "results": ["No RPM file matching '/tmp/elasticsearch-7.14.0-x86_64.rpm' found on system"]}  
-
-PLAY RECAP ***************************************************************************************************************************************************  
-el-instance                : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0  
+    PLAY RECAP ***************************************************************************************************************************************************     el-instance                : ok=2    changed=1    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0  
 
 
-Видимо, не хватило прав скачать файл или не прошла проверка сертификата, поэтому добавил в плейбук из предыдущего задания  
-mode: 0755  
-timeout: 60  
-force: true  
-validate_certs: false  
+    Видимо, не хватило прав скачать файл или не прошла проверка сертификата, поэтому добавил в плейбук из предыдущего задания  
+    mode: 0755  
+    timeout: 60  
+    force: true  
+    validate_certs: false  
 
 
-Запустил снова:
-[max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --check
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+    Запустил снова:
+    [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --check
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-PLAY [Install Elasticsearch] *********************************************************************************************************************************
+    PLAY [Install Elasticsearch] *********************************************************************************************************************************
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [el-instance]
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
-changed: [el-instance]
+    TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
+    changed: [el-instance]
 
-TASK [Install Elasticsearch] *********************************************************************************************************************************
-changed: [el-instance]
+    TASK [Install Elasticsearch] *********************************************************************************************************************************
+    changed: [el-instance]
 
-TASK [Configure Elasticsearch] *******************************************************************************************************************************
-changed: [el-instance]
+    TASK [Configure Elasticsearch] *******************************************************************************************************************************
+    changed: [el-instance]
 
-RUNNING HANDLER [restart Elasticsearch] **********************************************************************************************************************
-fatal: [el-instance]: FAILED! => {"changed": false, "msg": "Could not find the requested service elasticsearch: host"}
+    RUNNING HANDLER [restart Elasticsearch] **********************************************************************************************************************
+    fatal: [el-instance]: FAILED! => {"changed": false, "msg": "Could not find the requested service elasticsearch: host"}
 
-NO MORE HOSTS LEFT *******************************************************************************************************************************************
+    NO MORE HOSTS LEFT *******************************************************************************************************************************************
 
-PLAY RECAP ***************************************************************************************************************************************************
-el-instance                : ok=4    changed=3    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+    PLAY RECAP ***************************************************************************************************************************************************
+    el-instance                : ok=4    changed=3    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
 
-Handler выдал ошибку - не нашел сервиса elasticsearch для перезапуска, поскольку он еще не установлен))
-Мы запускали в режиме тестового прогона --check.
+    Handler выдал ошибку - не нашел сервиса elasticsearch для перезапуска, поскольку он еще не установлен))
+    Мы запускали в режиме тестового прогона --check.
 
 Теперь запустим с флагом --diff (отработал успешно, статус changed - изменения сделаны, только не перезапустил кибану):
 [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
