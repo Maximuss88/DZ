@@ -143,172 +143,171 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-03-yandex
     Handler выдал ошибку - не нашел сервиса elasticsearch для перезапуска, поскольку он еще не установлен))
     Мы запускали в режиме тестового прогона --check.
 
-Теперь запустим с флагом --diff (отработал успешно, статус changed - изменения сделаны, только не перезапустил кибану):
-[max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+    Теперь запустим с флагом --diff (отработал успешно, статус changed - изменения сделаны, только не перезапустил кибану):
+    [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020,      16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+      setting deprecation_warnings=False in ansible.cfg.
 
-PLAY [Install Elasticsearch] *********************************************************************************************************************************
+    PLAY [Install Elasticsearch] *********************************************************************************************************************************
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [el-instance]
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [el-instance]
+    
+    TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
+    changed: [el-instance]
 
-TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
-changed: [el-instance]
+    TASK [Install Elasticsearch] *********************************************************************************************************************************
+    changed: [el-instance]
 
-TASK [Install Elasticsearch] *********************************************************************************************************************************
-changed: [el-instance]
+    TASK [Configure Elasticsearch] *******************************************************************************************************************************
+    --- before: /etc/elasticsearch/elasticsearch.yml
+    +++ after: /home/max/.ansible/tmp/ansible-local-16336arrcreaq/tmpldq07854/elasticsearch.yml.j2
+    @@ -1,82 +1,7 @@
+    -# ======================== Elasticsearch Configuration =========================
+    -#
+    -# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+    ................
+    очень длинный вывод всего конфига целиком
+    ................
+    -# Require explicit names when deleting indices:
+    -#
+    -#action.destructive_requires_name: true
+    +network.host: 0.0.0.0
+    +discovery.seed_hosts: ["10.129.0.30"]
+    +node.name: node-a
+    +cluster.initial_master_nodes: 
+    +   - node-a
 
-TASK [Configure Elasticsearch] *******************************************************************************************************************************
---- before: /etc/elasticsearch/elasticsearch.yml
-+++ after: /home/max/.ansible/tmp/ansible-local-16336arrcreaq/tmpldq07854/elasticsearch.yml.j2
-@@ -1,82 +1,7 @@
--# ======================== Elasticsearch Configuration =========================
--#
--# NOTE: Elasticsearch comes with reasonable defaults for most settings.
-................
-очень длинный вывод всего конфига целиком
-................
--# Require explicit names when deleting indices:
--#
--#action.destructive_requires_name: true
-+network.host: 0.0.0.0
-+discovery.seed_hosts: ["10.129.0.30"]
-+node.name: node-a
-+cluster.initial_master_nodes: 
-+   - node-a
+    changed: [el-instance]
 
-changed: [el-instance]
+    RUNNING HANDLER [restart Elasticsearch] **********************************************************************************************************************
+    changed: [el-instance]
 
-RUNNING HANDLER [restart Elasticsearch] **********************************************************************************************************************
-changed: [el-instance]
+    PLAY [Install Kibana] ****************************************************************************************************************************************
 
-PLAY [Install Kibana] ****************************************************************************************************************************************
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [k-instance]
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [k-instance]
+    TASK [Download Kibana's rpm] *********************************************************************************************************************************
+    changed: [k-instance]
 
-TASK [Download Kibana's rpm] *********************************************************************************************************************************
-changed: [k-instance]
+    TASK [Install Kibana] ****************************************************************************************************************************************
+    changed: [k-instance]
 
-TASK [Install Kibana] ****************************************************************************************************************************************
-changed: [k-instance]
-
-TASK [Configure Kibana] **************************************************************************************************************************************
-ERROR! The requested handler 'restart Kibana' was not found in either the main handlers list nor in the listening handlers list
-
-
-Повторный запуск с флагом --diff (везде статус OK - в изменениях нет необходимости):
-[max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
-
-PLAY [Install Elasticsearch] *********************************************************************************************************************************
-
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [el-instance]
-
-TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
-ok: [el-instance]
-
-TASK [Install Elasticsearch] *********************************************************************************************************************************
-ok: [el-instance]
-
-TASK [Configure Elasticsearch] *******************************************************************************************************************************
-ok: [el-instance]
-
-PLAY [Install Kibana] ****************************************************************************************************************************************
-
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [k-instance]
-
-TASK [Download Kibana's rpm] *********************************************************************************************************************************
-ok: [k-instance]
-
-TASK [Install Kibana] ****************************************************************************************************************************************
-ok: [k-instance]
-
-TASK [Configure Kibana] **************************************************************************************************************************************
-ok: [k-instance]
-
-PLAY RECAP ***************************************************************************************************************************************************
-el-instance                : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-k-instance                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    TASK [Configure Kibana] **************************************************************************************************************************************
+    ERROR! The requested handler 'restart Kibana' was not found in either the main handlers list nor in the listening handlers list
 
 
-Раскомментировал play "Install Filebeat" и запустил (снова очень длинный вывод конфига, сократил его):
-[max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
-[DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
-16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
-setting deprecation_warnings=False in ansible.cfg.
+    Повторный запуск с флагом --diff (везде статус OK - в изменениях нет необходимости):
+    [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-PLAY [Install Elasticsearch] *********************************************************************************************************************************
+    PLAY [Install Elasticsearch] *********************************************************************************************************************************
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [el-instance]
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
-ok: [el-instance]
+    TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
+    ok: [el-instance]
+ 
+    TASK [Install Elasticsearch] *********************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Install Elasticsearch] *********************************************************************************************************************************
-ok: [el-instance]
+    TASK [Configure Elasticsearch] *******************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Configure Elasticsearch] *******************************************************************************************************************************
-ok: [el-instance]
+    PLAY [Install Kibana] ****************************************************************************************************************************************
 
-PLAY [Install Kibana] ****************************************************************************************************************************************
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [k-instance]
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [k-instance]
+    TASK [Download Kibana's rpm] *********************************************************************************************************************************
+    ok: [k-instance]
 
-TASK [Download Kibana's rpm] *********************************************************************************************************************************
-ok: [k-instance]
+    TASK [Install Kibana] ****************************************************************************************************************************************
+    ok: [k-instance]
 
-TASK [Install Kibana] ****************************************************************************************************************************************
-ok: [k-instance]
+    TASK [Configure Kibana] **************************************************************************************************************************************
+    ok: [k-instance]
 
-TASK [Configure Kibana] **************************************************************************************************************************************
-ok: [k-instance]
+    PLAY RECAP ***************************************************************************************************************************************************
+    el-instance                : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    k-instance                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-PLAY [Install Filebeat] **************************************************************************************************************************************
 
-TASK [Gathering Facts] ***************************************************************************************************************************************
-ok: [f-instance]
+    Раскомментировал play "Install Filebeat" и запустил (снова очень длинный вывод конфига, сократил его):
+    [max@max_centos ansible-test]$ ansible-playbook -i inventory/prod.yml site.yml --diff
+    [DEPRECATION WARNING]: Ansible will require Python 3.8 or newer on the controller starting with Ansible 2.12. Current version: 3.6.8 (default, Nov 16 2020, 
+    16:55:22) [GCC 4.8.5 20150623 (Red Hat 4.8.5-44)]. This feature will be removed from ansible-core in version 2.12. Deprecation warnings can be disabled by 
+    setting deprecation_warnings=False in ansible.cfg.
 
-TASK [Download Filebeat's rpm] *******************************************************************************************************************************
-changed: [f-instance]
+    PLAY [Install Elasticsearch] *********************************************************************************************************************************
 
-TASK [Install Filebeat] **************************************************************************************************************************************
-changed: [f-instance]
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Configure Filebeat] ************************************************************************************************************************************
---- before: /etc/filebeat/filebeat.yml
-+++ after: /home/max/.ansible/tmp/ansible-local-18287lnxnngoe/tmp1mj5f6nu/filebeat.yml.j2
-@@ -1,270 +1,5 @@
--###################### Filebeat Configuration Example #########################
--
--# This file is an example configuration file highlighting only the most common
-.....................
-.....................
-.....................
--# This allows to enable 6.7 migration aliases
--#migration.6_to_7.enabled: true
--
-+  host: "http://10.129.0.14:5601"
-+filebeat.config.modules.path: ${path.config}/modules.d/*.yml
-\ No newline at end of file
+    TASK [Download Elasticsearch's rpm] **************************************************************************************************************************
+    ok: [el-instance]
 
-changed: [f-instance]
+    TASK [Install Elasticsearch] *********************************************************************************************************************************
+    ok: [el-instance]
 
-TASK [Set filebeat systemwork] *******************************************************************************************************************************
-changed: [f-instance]
+    TASK [Configure Elasticsearch] *******************************************************************************************************************************
+    ok: [el-instance]
 
-RUNNING HANDLER [restart filebeat] ***************************************************************************************************************************
+    PLAY [Install Kibana] ****************************************************************************************************************************************
 
-PLAY RECAP ***************************************************************************************************************************************************
-el-instance                : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-f-instance                 : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-k-instance                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [k-instance]
+
+    TASK [Download Kibana's rpm] *********************************************************************************************************************************
+    ok: [k-instance]
+
+    TASK [Install Kibana] ****************************************************************************************************************************************
+    ok: [k-instance]
+
+    TASK [Configure Kibana] **************************************************************************************************************************************
+    ok: [k-instance]
+
+    PLAY [Install Filebeat] **************************************************************************************************************************************
+
+    TASK [Gathering Facts] ***************************************************************************************************************************************
+    ok: [f-instance]
+
+    TASK [Download Filebeat's rpm] *******************************************************************************************************************************
+    changed: [f-instance]
+
+    TASK [Install Filebeat] **************************************************************************************************************************************
+    changed: [f-instance]
+
+    TASK [Configure Filebeat] ************************************************************************************************************************************
+    --- before: /etc/filebeat/filebeat.yml
+    +++ after: /home/max/.ansible/tmp/ansible-local-18287lnxnngoe/tmp1mj5f6nu/filebeat.yml.j2
+    @@ -1,270 +1,5 @@
+    -###################### Filebeat Configuration Example #########################
+    -
+    -# This file is an example configuration file highlighting only the most common
+    .....................
+    .....................
+    .....................
+    -# This allows to enable 6.7 migration aliases
+    -#migration.6_to_7.enabled: true
+    -
+    +  host: "http://10.129.0.14:5601"
+    +filebeat.config.modules.path: ${path.config}/modules.d/*.yml
+    \ No newline at end of file
+
+    changed: [f-instance]
+
+    TASK [Set filebeat systemwork] *******************************************************************************************************************************
+    changed: [f-instance]
+
+    RUNNING HANDLER [restart filebeat] ***************************************************************************************************************************
+
+    PLAY RECAP ***************************************************************************************************************************************************
+    el-instance                : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    f-instance                 : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+    k-instance                 : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
  
