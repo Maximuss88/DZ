@@ -30,7 +30,7 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-03-yandex
     -rw-r--r-- 1 max max 294 дек 27 01:59 filebeat.yml.j2  
     -rw-r--r-- 1 max max 159 дек 26 01:59 kibana.yml.j2  
 
-    Завел аккаунт в Yandex Cloud, создал через веб-интерфейс три ВМ (скриншот), указал локального пользователя и скопировал открытый ключ из ~/.ssh/id_ed25519.pub, затем подключился к каждой по ssh:  
+Завел аккаунт в Yandex Cloud, создал через веб-интерфейс три ВМ (скриншот), указал локального пользователя и скопировал открытый ключ из ~/.ssh/id_ed25519.pub, затем подключился к каждой по ssh:  
 
     [max@max_centos DZ]$ ssh max@51.250.23.168  
     The authenticity of host '51.250.23.168 (51.250.23.168)' can't be established.  
