@@ -1,4 +1,4 @@
-https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-04-role
+https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-04-role  
 ***Подготовка к выполнению***  
     ***Создайте два пустых публичных репозитория в любом своём проекте: kibana-role и filebeat-role.***  
     ***Добавьте публичную часть своего ключа к своему профилю в github.***  
@@ -6,11 +6,11 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/08-ansible-04-role
 ***Основная часть***  
 ***Наша основная цель - разбить наш playbook на отдельные roles. Задача: сделать roles для elastic, kibana, filebeat и написать playbook для использования этих ролей. Ожидаемый результат: существуют два ваших репозитория с roles и один репозиторий с playbook.***  
     ***Создать в старой версии playbook файл requirements.yml и заполнить его следующим содержимым:***  
-    ---
-    - src: git@github.com:netology-code/mnt-homeworks-ansible.git  
-      scm: git
-      version: "2.0.0" 
-      name: elastic  
+    ---  
+    - src: git@github.com:netology-code/mnt-homeworks-ansible.git    
+      scm: git  
+      version: "2.0.0"   
+      name: elastic   
 
 ***При помощи ansible-galaxy скачать себе эту роль.***  
 ***Создать новый каталог с ролью при помощи ansible-galaxy role init kibana-role.***  
