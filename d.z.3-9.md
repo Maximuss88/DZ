@@ -59,7 +59,8 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/09-ci-03-cicd
 
 
 
-    Создал 2 ВМ в Yandex Cloud, подключился по разу к каждой, добавил их IP в inventory/cicd/hosts.yml, скопировал в каталог files файл id_ed25519.pub, исправил имя файла в плейбуке.
+
+Создал 2 ВМ в Yandex Cloud, подключился по разу к каждой, добавил их IP в inventory/cicd/hosts.yml, скопировал в каталог files файл id_ed25519.pub, исправил имя файла в плейбуке.
 
     Плейбук успешно отработал:
     [max@max_centos infrastructure]$ ansible-playbook -i inventory/cicd/hosts.yml site.yml 
