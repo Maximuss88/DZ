@@ -58,7 +58,7 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/09-ci-03-cicd
 ***Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.***  
 
 
-
+************
 
 Создал 2 ВМ в Yandex Cloud, подключился по разу к каждой, добавил их IP в inventory/cicd/hosts.yml, скопировал в каталог files файл id_ed25519.pub, исправил имя файла в плейбуке.
 
