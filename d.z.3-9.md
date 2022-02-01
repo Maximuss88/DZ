@@ -261,28 +261,28 @@ https://github.com/netology-code/mnt-homeworks/tree/MNT-7/09-ci-03-cicd
 
 Создал в Sonarqube проект test1, скачал SonarScanner 4.6.2, добавил в переменные окружения: 
 
-[max@max_centos bin]$ echo $PATH
-/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin
-[max@max_centos bin]$ 
-[max@max_centos bin]$ export PATH=$PATH:/home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/bin
-[max@max_centos bin]$ 
-[max@max_centos bin]$ echo $PATH
-/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin:/home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/bin
+    [max@max_centos bin]$ echo $PATH
+    /usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin
+    [max@max_centos bin]$ 
+    [max@max_centos bin]$ export PATH=$PATH:/home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/bin
+    [max@max_centos bin]$ 
+    [max@max_centos bin]$ echo $PATH
+    /usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin:/home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/bin
 
-[max@max_centos bin]$ sonar-scanner --version
-INFO: Scanner configuration file: /home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/conf/sonar-scanner.properties
-INFO: Project root configuration file: NONE
-INFO: SonarScanner 4.6.2.2472
-INFO: Java 11.0.11 AdoptOpenJDK (64-bit)
-INFO: Linux 3.10.0-1160.45.1.el7.x86_64 amd64
+    [max@max_centos bin]$ sonar-scanner --version
+    INFO: Scanner configuration file: /home/max/SonarQube/sonar-scanner-4.6.2.2472-linux/conf/sonar-scanner.properties
+    INFO: Project root configuration file: NONE
+    INFO: SonarScanner 4.6.2.2472
+    INFO: Java 11.0.11 AdoptOpenJDK (64-bit)
+    INFO: Linux 3.10.0-1160.45.1.el7.x86_64 amd64
 
-Запустил
-sonar-scanner \
-  -Dsonar.projectKey=test1 \
-  -Dsonar.sources=. \
-  -Dsonar.host.url=http://130.193.35.179:9000 \
-  -Dsonar.login=6baa446acb13ae9b2052d426c404bac257623d7f
-  -Dsonar.coverage.exclusions=fail.py
+    Запустил
+    sonar-scanner \
+      -Dsonar.projectKey=test1 \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=http://130.193.35.179:9000 \
+      -Dsonar.login=6baa446acb13ae9b2052d426c404bac257623d7f
+      -Dsonar.coverage.exclusions=fail.py
   
 Найдено 2 бага (скриншот 17). Исправил (объявил переменнную и заменил =+ на +=), проверка не нашла багов (скриншот 18).
 
@@ -290,72 +290,72 @@ sonar-scanner \
 Скачал jre-8u321-linux-x64 и в Nexus репозиторий maven-public загрузил два артефакта (скриншот 21).
 
 
-Скачал Maven 3.8.4, разархивировал, добавил в PATH:
-[max@max_centos bin]$ echo $PATH
-/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin
-[max@max_centos bin]$ 
-[max@max_centos bin]$ export PATH=$PATH:/home/max/SonarQube/apache-maven-3.8.4/bin
-[max@max_centos bin]$ 
-[max@max_centos bin]$ echo $PATH
-/usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin:/home/max/SonarQube/apache-maven-3.8.4/bin
+    Скачал Maven 3.8.4, разархивировал, добавил в PATH:
+    [max@max_centos bin]$ echo $PATH
+    /usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin
+    [max@max_centos bin]$ 
+    [max@max_centos bin]$ export PATH=$PATH:/home/max/SonarQube/apache-maven-3.8.4/bin
+    [max@max_centos bin]$ 
+    [max@max_centos bin]$ echo $PATH
+    /usr/lib64/qt-3.3/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/max/.local/bin:/home/max/bin:/home/max/SonarQube/apache-maven-3.8.4/bin
 
-Удалил из конфига фрагмент
-    <mirror>
-      <id>maven-default-http-blocker</id>
-      <mirrorOf>external:http:*</mirrorOf>
-      <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
-      <url>http://0.0.0.0/</url>
-      <blocked>true</blocked>
-    </mirror>
+    Удалил из конфига фрагмент
+        <mirror>
+          <id>maven-default-http-blocker</id>
+          <mirrorOf>external:http:*</mirrorOf>
+          <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+          <url>http://0.0.0.0/</url>
+          <blocked>true</blocked>
+        </mirror>
     
-[max@max_centos bin]$ mvn --version
-Apache Maven 3.8.4 (9b656c72d54e5bacbed989b64718c159fe39b537)
-Maven home: /home/max/SonarQube/apache-maven-3.8.4
-Java version: 1.8.0_312, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre
-Default locale: ru_RU, platform encoding: UTF-8
-OS name: "linux", version: "3.10.0-1160.45.1.el7.x86_64", arch: "amd64", family: "unix"
+    [max@max_centos bin]$ mvn --version
+    Apache Maven 3.8.4 (9b656c72d54e5bacbed989b64718c159fe39b537)
+    Maven home: /home/max/SonarQube/apache-maven-3.8.4
+    Java version: 1.8.0_312, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.312.b07-1.el7_9.x86_64/jre
+    Default locale: ru_RU, platform encoding: UTF-8
+    OS name: "linux", version: "3.10.0-1160.45.1.el7.x86_64", arch: "amd64", family: "unix"
 
 Исправил pom.xml и запустил:
 
-[max@max_centos mvn]$ pwd
-/home/max/SonarQube/mvn
-[max@max_centos mvn]$ mvn package
-[INFO] Scanning for projects...
-[INFO] 
-[INFO] ---------------------------< netology:java >----------------------------
-[INFO] Building java 8_282
-[INFO] --------------------------------[ jar ]---------------------------------
-Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/2.6/maven-resources-plugin-2.6.pom
-Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/2.6/maven-resources-plugin-2.6.pom (8.1 kB at 5.2 kB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/23/maven-plugins-23.pom
-Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/23/maven-plugins-23.pom (9.2 kB at 55 kB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/22/maven-parent-22.pom
-Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/22/maven-parent-22.pom (30 kB at 171 kB/s)
-..........................
-..........................
-..........................
-Downloaded from central: https://repo.maven.apache.org/maven2/commons-lang/commons-lang/2.1/commons-lang-2.1.jar (208 kB at 371 kB/s)
-Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar (226 kB at 395 kB/s)
-[WARNING] JAR will be empty - no content was marked for inclusion!
-[INFO] Building jar: /home/max/SonarQube/mvn/target/java-8_282.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  32.444 s
-[INFO] Finished at: 2022-01-31T22:53:21+04:00
-[INFO] ------------------------------------------------------------------------
+    [max@max_centos mvn]$ pwd
+    /home/max/SonarQube/mvn
+    [max@max_centos mvn]$ mvn package
+    [INFO] Scanning for projects...
+    [INFO] 
+    [INFO] ---------------------------< netology:java >----------------------------
+    [INFO] Building java 8_282
+    [INFO] --------------------------------[ jar ]---------------------------------
+    Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/2.6/maven-resources-plugin-2.6.pom
+    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-resources-plugin/2.6/maven-resources-plugin-2.6.pom (8.1 kB at 5.2 kB/s)
+    Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/23/maven-plugins-23.pom
+    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-plugins/23/maven-plugins-23.pom (9.2 kB at 55 kB/s)
+    Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/22/maven-parent-22.pom
+    Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/maven-parent/22/maven-parent-22.pom (30 kB at 171 kB/s)
+    ..........................
+    ..........................
+    ..........................
+    Downloaded from central: https://repo.maven.apache.org/maven2/commons-lang/commons-lang/2.1/commons-lang-2.1.jar (208 kB at 371 kB/s)
+    Downloaded from central: https://repo.maven.apache.org/maven2/org/codehaus/plexus/plexus-utils/3.0/plexus-utils-3.0.jar (226 kB at 395 kB/s)
+    [WARNING] JAR will be empty - no content was marked for inclusion!
+    [INFO] Building jar: /home/max/SonarQube/mvn/target/java-8_282.jar
+    [INFO] ------------------------------------------------------------------------
+    [INFO] BUILD SUCCESS
+    [INFO] ------------------------------------------------------------------------
+    [INFO] Total time:  32.444 s
+    [INFO] Finished at: 2022-01-31T22:53:21+04:00
+    [INFO] ------------------------------------------------------------------------
 
 
-[max@max_centos repository]$ pwd
-/home/max/.m2/repository
-[max@max_centos repository]$ ls -l
-итого 0
-drwxrwxr-x 3 max max 38 янв 31 22:53 backport-util-concurrent
-drwxrwxr-x 3 max max 25 янв 31 22:52 classworlds
-drwxrwxr-x 3 max max 20 янв 31 22:53 com
-drwxrwxr-x 3 max max 25 янв 31 22:52 commons-cli
-drwxrwxr-x 3 max max 26 янв 31 22:53 commons-lang
-drwxrwxr-x 3 max max 33 янв 31 22:53 commons-logging
-drwxrwxr-x 3 max max 19 янв 31 22:52 junit
-drwxrwxr-x 3 max max 19 янв 31 22:53 log4j
-drwxrwxr-x 6 max max 65 янв 31 22:53 org 
+    [max@max_centos repository]$ pwd
+    /home/max/.m2/repository
+    [max@max_centos repository]$ ls -l
+    итого 0
+    drwxrwxr-x 3 max max 38 янв 31 22:53 backport-util-concurrent
+    drwxrwxr-x 3 max max 25 янв 31 22:52 classworlds
+    drwxrwxr-x 3 max max 20 янв 31 22:53 com
+    drwxrwxr-x 3 max max 25 янв 31 22:52 commons-cli
+    drwxrwxr-x 3 max max 26 янв 31 22:53 commons-lang
+    drwxrwxr-x 3 max max 33 янв 31 22:53 commons-logging
+    drwxrwxr-x 3 max max 19 янв 31 22:52 junit
+    drwxrwxr-x 3 max max 19 янв 31 22:53 log4j
+    drwxrwxr-x 6 max max 65 янв 31 22:53 org 
